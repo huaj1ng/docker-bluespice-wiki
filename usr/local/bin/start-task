@@ -1,0 +1,8 @@
+#!/bin/bash
+
+check-database
+if [ $? -ne 0 ]; then
+	run-installation
+fi
+
+sleep infinity

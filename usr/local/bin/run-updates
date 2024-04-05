@@ -1,0 +1,9 @@
+#!/bin/bash
+
+timestamp=$(date +%Y%m%d%H%M%S)
+appDir=/opt/bluespice/w
+
+echo "Running updates"
+
+php $appDir/maintenance/update.php --quick | tee /data/logs/update-$timestamp.log
+

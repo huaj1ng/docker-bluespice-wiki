@@ -1,0 +1,9 @@
+#!/bin/bash
+
+init-datadirectory
+
+if [ -f /data/.wikienv ]; then
+  source /data/.wikienv
+fi
+
+exec "$@"

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+appDir=/opt/bluespice/w
+
+php $appDir/maintenance/runJobs.php

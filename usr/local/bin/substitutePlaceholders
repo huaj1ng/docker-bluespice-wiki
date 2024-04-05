@@ -1,0 +1,32 @@
+#!/bin/php
+<?php
+# Call me like ./substitutePlaceholders /opt/bluespice/w/LocalSettings.php
+
+$file = $argv[1];
+if (!file_exists($file)) {
+	echo "File $file does not exist\n";
+	exit( 1 );
+}
+
+$contents = file_get_contents( $file );
+$modifiedContents = preg_replace_callback(
+	'/###([A-Z_]+)###/',
+	function( $matches ) {
+		$envVarName = $matches[1];
+		$envVarValue = getenv( $envVarName );
+		;
+		if ( $envVarValue === false ) {
+			$envVarValue = '';
+		}
+
+		$outputValue = $envVarValue;
+		if ( strpos( $envVarName, 'PASS' ) !== false ) {
+			$outputValue = str_repeat( '*', strlen( $envVarValue ) );
+		}
+		echo "###$envVarName### -> $outputValue\n";
+		return $envVarValue;
+	},
+	$contents
+);
+
+file_put_contents( $file, $modifiedContents );

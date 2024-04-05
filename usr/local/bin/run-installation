@@ -1,0 +1,40 @@
+#!/bin/bash
+
+timestamp=$(date +%Y%m%d%H%M%S)
+appDir=/opt/bluespice/w
+adminPass=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 20; echo)
+upgradeKey=$(tr -dc a-z0-9 </dev/urandom | head -c 16; echo)
+secretKey=$(tr -dc a-z0-9 </dev/urandom | head -c 64; echo)
+echo '' > /data/.wikienv
+echo "INTERNAL_WIKI_UPGRADEKEY=$upgradeKey" >> /data/.wikienv
+echo "INTERNAL_WIKI_SECRETKEY=$secretKey" >> /data/.wikienv
+
+
+mv $appDir/LocalSettings.php $appDir/LocalSettings.php.bak
+
+php $appDir/maintenance/install.php \
+	--dbserver=$DB_HOST \
+	--dbname=$DB_NAME \
+	--installdbuser=root \
+	--installdbpass=$DB_ROOT_PASS \
+	--dbuser=$DB_USER \
+	--dbpass=$DB_PASS \
+	--pass=$adminPass \
+	--lang=$WIKI_LANG \
+	--scriptpath=/w \
+	$WIKI_NAME \
+	Admin \
+	| tee /data/logs/install-$timestamp.log
+
+rm $appDir/LocalSettings.php
+mv $appDir/LocalSettings.php.bak $appDir/LocalSettings.php
+
+echo "Database installed"
+
+run-updates
+rebuild-searchindex
+
+echo "Installation complete"
+echo "You can now access the wiki in your browser at $WIKI_PROTOCOL://$WIKI_HOST:$WIKI_PORT"
+echo "The password for user 'Admin' can be found in \$DATADIR/adminPassword"
+echo $adminPass > /data/adminPasssword

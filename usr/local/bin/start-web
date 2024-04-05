@@ -1,0 +1,6 @@
+#!/bin/bash
+
+substitutePlaceholders /etc/apache2/sites-available/000-default.conf
+
+#php-fpm8.2 -D FOREGROUND
+apache2 -D FOREGROUND

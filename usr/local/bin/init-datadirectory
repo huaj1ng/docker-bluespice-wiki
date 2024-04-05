@@ -1,0 +1,28 @@
+#!/bin/bash
+
+directories=(
+  /data/cache
+  /data/extensions/BlueSpiceFoundation/data
+  /data/images
+  /data/logs/postupdate
+  /data/logs
+)
+
+for directory in "${directories[@]}"; do
+  if [ ! -d "$directory" ]; then
+    mkdir -p "$directory"
+  fi
+done
+
+declare -A files
+files[/data/pre-init-settings.php]="<?php"
+files[/data/post-init-settings.php]="<?php"
+files[/data/logs/postupdate/README.md]="Do not delete files from this directory!"
+
+for file in "${!files[@]}"; do
+  if [ ! -f "$file" ]; then
+    echo -e "${files[$file]}" > "$file"
+  fi
+done
+
+chown -R www-data:www-data /data

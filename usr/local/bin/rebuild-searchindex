@@ -1,0 +1,9 @@
+#!/bin/bash
+
+appDir=/opt/bluespice/w
+
+echo "Rebuilding search index"
+
+php $appDir/extensions/BlueSpiceExtendedSearch/maintenance/purgeIndexes.php --quick
+php $appDir/extensions/BlueSpiceExtendedSearch/maintenance/initBackends.php --quick
+php $appDir/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick
