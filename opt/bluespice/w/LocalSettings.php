@@ -81,6 +81,15 @@ if ( getenv( 'DEV_WIKI_DEBUG' ) ) {
 	$GLOBALS['wgDebugDumpSql'] = true;
 }
 
+if ( getenv( 'DEV_WIKI_DEBUG_LOGCHANNELS' ) ) {
+	$logChannels = explode( ',', getenv( 'DEV_WIKI_DEBUG_LOGCHANNELS' ) );
+	$logChannels = array_map( 'trim', $logChannels );
+	foreach ( $logChannels as $channel ) {
+		$GLOBALS['bsgDebugLogGroups'][$channel] = '/dev/stdout';
+	}
+	unset( $logChannels );
+}
+
 // Taken from `extensions/BlueSpiceWikiFarm/SimpleFarmer/src/Dispatcher.php`
 // Not all of this may be required
 $GLOBALS['wgUploadDirectory'] = "/data/images";
