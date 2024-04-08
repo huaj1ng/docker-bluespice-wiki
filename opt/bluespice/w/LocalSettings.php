@@ -123,4 +123,10 @@ $GLOBALS['bsgOverrideUEModulePDFPdfServiceURL'] =
 	. ( getenv( 'PDF_PORT' ) )
 	. '/BShtml2PDF';
 
+wfLoadExtension( 'PdfHandler' );
+$GLOBALS['wgPdfProcessor'] = '/usr/bin/gs';
+$GLOBALS['wgPdfPostProcessor'] = $GLOBALS['wgImageMagickConvertCommand'];
+$GLOBALS['wgPdfInfo'] = '/usr/bin/pdfinfo';
+$GLOBALS['wgPdftoText'] = '/usr/bin/pdftotext';
+
 require_once '/data/post-init-settings.php';
