@@ -8,7 +8,8 @@ else
 fi
 
 echo "Starting TaskRunner"
-
+appDir=/opt/bluespice/w
+processRunnerScript=$appDir/vendor/mwstake/mediawiki-component-processmanager/maintenance/processRunner.php
 runjobs_pid=
 processrunner_pid=
 
@@ -20,10 +21,29 @@ kill_runner() {
 trap kill_runner SIGTERM
 
 while true; do
-	php maintenance/runJobs.php --wait --maxjobs=1 &
-	runjobs_pid=$!
-	php maintenance/processRunner.php &
-	processrunner_pid=$!
+	ps -p $runjobs_pid > /dev/null
+	if [ $? -ne 0 ]; then
+		echo "Starting runJobs"
+		php \
+			$appDir/maintenance/runJobs.php \
+			--maxjobs=10 \
+			&
+		runjobs_pid=$!
+	fi
 
-	wait -n
+	if [ -f $processRunnerScript ]; then
+		ps -p $processrunner_pid > /dev/null
+		if [ $? -ne 0 ]; then
+			echo "Starting ProcessRunner"
+			php \
+				\
+				$appDir/maintenance/Maintenance.php \
+				--wait \
+				--max-processes=10 \
+				&
+			processrunner_pid=$!
+		fi
+	fi
+
+	sleep 2
 done
