@@ -2,6 +2,7 @@ FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y \
 	nginx \
+	openssl \
 	php \
 	php-xml \
 	php-mbstring \
@@ -16,7 +17,6 @@ RUN apt-get update && apt-get install -y \
 	php-gd \
 	php-gmp \
 	php-fpm \
-	php-openssl \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -32,6 +32,7 @@ RUN chmod +x /usr/local/bin/*
 COPY etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/mods-available/90-bluespice-overrides.ini
 RUN ln -s /etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/cli/conf.d/90-bluespice-overrides.ini
 COPY etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default
+COPY etc/php/8.2/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
 EXPOSE 80
 

@@ -1,47 +1,59 @@
 server {
-	listen 80;
-	server_name ###WIKI_HOST###;
+	server_name _;
+	listen 80 default_server;
+	root /opt/bluespice;
+	access_log /dev/stdout;
+	error_log /dev/stderr;
+	server_tokens off;
 
-	root /opt/bluespice/w;
-
-	location /w/BUILDINFO {
-		alias /opt/bluespice/w/BUILDINFO;
+	location /w {
+		deny all;
 	}
 
-	location /w/ {
-		rewrite ^/wiki/(.*)$ /w/index.php?title=$1 last;
+	location ~ ^/w/(api|dynamic_file|index|load|opensearch_desc|thumb_handler|thumb)\.php$ {
+		include fastcgi.conf;
+		fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+		fastcgi_pass 127.0.0.1:9000;
 	}
 
-	location /w/index.php {
-		include fastcgi_params;
-		fastcgi_pass unix:/var/run/php/php-fpm.sock;
-		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	location ~ ^/w/(img_auth|nsfr_img_auth|rest|webdav)\.php(/.+?)$ {
+		include fastcgi.conf;
+		fastcgi_split_path_info ^(.+?\.php)(/.+)$;
+		fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+		fastcgi_pass 127.0.0.1:9000;
 	}
 
-	location /w/api.php {
-		include fastcgi_params;
-		fastcgi_pass unix:/var/run/php/php-fpm.sock;
-		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	location ~ /w/BUILDINFO {
+		allow all;
 	}
 
-	location /w/load.php {
-		include fastcgi_params;
-		fastcgi_pass unix:/var/run/php/php-fpm.sock;
-		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	location ~ /webdav/(.*) {
+		rewrite /webdav/.* /w/webdav.php;
 	}
 
-	location /_webdav/ {
-		rewrite ^/_webdav/(.*)$ /w/webdav.php/$1 last;
+	location ~ ^/_sp/(index|logout|module|errorreport)\.php(/.+?)$ {
+		include fastcgi.conf;
+		fastcgi_split_path_info ^(.+?\.php)(/.+)$;
+		fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+		fastcgi_pass 127.0.0.1:9000;
+		break;
 	}
 
-	location ^~ /_sp/ {
-		alias /opt/simplesamlphp/public/;
-		try_files $uri $uri/ /_sp/index.php$is_args$args;
-		
-		location ~ \.php$ {
-			include fastcgi_params;
-			fastcgi_param SCRIPT_FILENAME /opt/simplesamlphp/www/$fastcgi_script_name;
-			fastcgi_pass unix:/var/run/php/php-fpm.sock;
-		}
+	location ~ ^/w/resources/(assets|lib|src) {
+		add_header Cache-Control "public";
+		expires 7d;
+	}
+
+	location ~ ^/w/(skins|extensions)/.+\.(css|js|gif|jpg|jpeg|png|svg|woff|woff2|ttf)$ {
+		add_header Cache-Control "public";
+		expires 7d;
+	}
+
+	location /wiki/ {
+		rewrite ^/wiki/(?<pagename>.*)$ /w/index.php;
+	}
+
+	location = / {
+		return 301 //$host/wiki$request_uri;
 	}
 }

@@ -5,5 +5,9 @@ appDir=/opt/bluespice/w
 
 echo "Running updates"
 
+version=$(cat $appDir/BLUESPICE-VERSION)
+echo "Version: $version"
+
 php $appDir/maintenance/update.php --quick | tee /data/logs/update-$timestamp.log
 
+echo $version > /data/logs/baseversion

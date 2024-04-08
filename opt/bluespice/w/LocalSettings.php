@@ -20,10 +20,11 @@ unset( $portSuffix );
 
 $GLOBALS['wgSitename'] = getenv( 'WIKI_NAME' ) ?? 'BlueSpice';
 $GLOBALS['wgScriptPath'] = "/w";
+$GLOBALS['wgArticlePath'] = '/wiki/$1';
 $GLOBALS['wgResourceBasePath'] = $GLOBALS['wgScriptPath'];
 $GLOBALS['wgLogos'] = [
-	'1x' => $GLOBALS['$wgResourceBasePath'] . '/resources/assets/change-your-logo.svg',
-	'icon' => $GLOBALS['$wgResourceBasePath']. '/resources/assets/change-your-logo-icon.svg',
+	'1x' => $GLOBALS['wgResourceBasePath'] . '/resources/assets/change-your-logo.svg',
+	'icon' => $GLOBALS['wgResourceBasePath']. '/resources/assets/change-your-logo-icon.svg',
 ];
 $GLOBALS['wgEmergencyContact'] = getenv( 'WIKI_EMERGENCYCONTACT' ) ?? '';
 $GLOBALS['wgPasswordSender'] = getenv( 'WIKI_PASSWORDSENDER' ) ?? '';
@@ -79,6 +80,19 @@ if ( getenv( 'DEV_WIKI_DEBUG' ) ) {
 	$GLOBALS['wgDevelopmentWarnings'] = true;
 	$GLOBALS['wgDebugDumpSql'] = true;
 }
+
+// Taken from `extensions/BlueSpiceWikiFarm/SimpleFarmer/src/Dispatcher.php`
+// Not all of this may be required
+$GLOBALS['wgUploadDirectory'] = "/data/images";
+$GLOBALS['wgReadOnlyFile'] = "{$GLOBALS['wgUploadDirectory']}/lock_yBgMBwiR";
+$GLOBALS['wgFileCacheDirectory'] = "{$GLOBALS['wgUploadDirectory']}/cache";
+$GLOBALS['wgDeletedDirectory'] = "{$GLOBALS['wgUploadDirectory']}/deleted";
+$GLOBALS['wgCacheDirectory'] = "/data/cache";
+
+define( 'BSDATADIR', "/data/extensions/BlueSpiceFoundation/data" ); //Present
+define( 'BS_DATA_DIR', "{$GLOBALS['wgUploadDirectory']}/bluespice" ); //Future
+define( 'BS_CACHE_DIR', "{$GLOBALS['wgFileCacheDirectory']}/bluespice" );
+define( 'BS_DATA_PATH', "{$GLOBALS['wgUploadPath']}/bluespice" );
 
 require_once '/data/pre-init-settings.php';
 
