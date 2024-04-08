@@ -3,6 +3,8 @@
 check-database
 if [ $? -ne 0 ]; then
 	run-installation
+else
+	run-updates
 fi
 
 sleep infinity

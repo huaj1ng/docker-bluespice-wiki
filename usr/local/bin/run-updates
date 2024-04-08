@@ -3,9 +3,15 @@
 timestamp=$(date +%Y%m%d%H%M%S)
 appDir=/opt/bluespice/w
 
-echo "Running updates"
-
+baseVersion=$(cat /data/logs/baseversion)
 version=$(cat $appDir/BLUESPICE-VERSION)
+
+if [ "$baseVersion" == "$version" ]; then
+	echo "No version change, skipping updates"
+	exit 0
+fi
+
+echo "Running updates"
 echo "Version: $version"
 
 php $appDir/maintenance/update.php --quick | tee /data/logs/update-$timestamp.log
