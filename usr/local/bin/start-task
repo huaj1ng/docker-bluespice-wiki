@@ -7,4 +7,23 @@ else
 	run-updates
 fi
 
-sleep infinity
+echo "Starting TaskRunner"
+
+runjobs_pid=
+processrunner_pid=
+
+kill_runner() {
+	kill $runjobs_pid 2> /dev/null
+	kill $processrunner_pid 2> /dev/null
+}
+
+trap kill_runner SIGTERM
+
+while true; do
+	php maintenance/runJobs.php --wait --maxjobs=1 &
+	runjobs_pid=$!
+	php maintenance/processRunner.php &
+	processrunner_pid=$!
+
+	wait -n
+done
