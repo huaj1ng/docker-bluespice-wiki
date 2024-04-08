@@ -2,6 +2,7 @@ server {
 	server_name _;
 	listen 80 default_server;
 	root /opt/bluespice;
+	client_max_body_size 1024m;
 	access_log /dev/stdout;
 	error_log /dev/stderr;
 	server_tokens off;
@@ -24,6 +25,10 @@ server {
 	}
 
 	location ~ /w/BUILDINFO {
+		allow all;
+	}
+
+	location ~ ^/w/skins/BlueSpiceDiscovery/resources/images/favicon\.ico$ {
 		allow all;
 	}
 
