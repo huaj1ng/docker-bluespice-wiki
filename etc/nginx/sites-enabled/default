@@ -1,0 +1,47 @@
+server {
+	listen 80;
+	server_name ###WIKI_HOST###;
+
+	root /opt/bluespice/w;
+
+	location /w/BUILDINFO {
+		alias /opt/bluespice/w/BUILDINFO;
+	}
+
+	location /w/ {
+		rewrite ^/wiki/(.*)$ /w/index.php?title=$1 last;
+	}
+
+	location /w/index.php {
+		include fastcgi_params;
+		fastcgi_pass unix:/var/run/php/php-fpm.sock;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	}
+
+	location /w/api.php {
+		include fastcgi_params;
+		fastcgi_pass unix:/var/run/php/php-fpm.sock;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	}
+
+	location /w/load.php {
+		include fastcgi_params;
+		fastcgi_pass unix:/var/run/php/php-fpm.sock;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	}
+
+	location /_webdav/ {
+		rewrite ^/_webdav/(.*)$ /w/webdav.php/$1 last;
+	}
+
+	location ^~ /_sp/ {
+		alias /opt/simplesamlphp/public/;
+		try_files $uri $uri/ /_sp/index.php$is_args$args;
+		
+		location ~ \.php$ {
+			include fastcgi_params;
+			fastcgi_param SCRIPT_FILENAME /opt/simplesamlphp/www/$fastcgi_script_name;
+			fastcgi_pass unix:/var/run/php/php-fpm.sock;
+		}
+	}
+}

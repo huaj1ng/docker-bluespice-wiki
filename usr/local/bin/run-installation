@@ -8,8 +8,9 @@ secretKey=$(tr -dc a-z0-9 </dev/urandom | head -c 64; echo)
 echo '' > /data/.wikienv
 echo "INTERNAL_WIKI_UPGRADEKEY=$upgradeKey" >> /data/.wikienv
 echo "INTERNAL_WIKI_SECRETKEY=$secretKey" >> /data/.wikienv
+source /data/.wikienv
 
-
+# `install.php` will not work with an existing LocalSettings.php
 mv $appDir/LocalSettings.php $appDir/LocalSettings.php.bak
 
 php $appDir/maintenance/install.php \
@@ -26,6 +27,7 @@ php $appDir/maintenance/install.php \
 	Admin \
 	| tee /data/logs/install-$timestamp.log
 
+# Restore the original LocalSettings.php
 rm $appDir/LocalSettings.php
 mv $appDir/LocalSettings.php.bak $appDir/LocalSettings.php
 

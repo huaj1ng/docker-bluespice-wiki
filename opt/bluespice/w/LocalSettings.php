@@ -42,6 +42,7 @@ $GLOBALS['wgMemCachedServers'] = [
 	. ( getenv( 'MEMCACHED_PORT' ) ?? '11211' )
 ];
 $GLOBALS['wgEnableUploads'] = true;
+$GLOBALS['wgUploadPath'] = $GLOBALS['wgScriptPath'] . '/img_auth.php';
 $GLOBALS['wgUseImageMagick'] = true;
 $GLOBALS['wgImageMagickConvertCommand'] = "/usr/bin/convert";
 $GLOBALS['wgLanguageCode'] = getenv( 'WIKI_LANG' ) ?? "en";
@@ -55,7 +56,48 @@ $GLOBALS['wgRightsText'] = "";
 $GLOBALS['wgRightsIcon'] = "";
 $GLOBALS['wgMetaNamespace'] = "Site";
 $GLOBALS['wgPhpCli'] = '/bin/php';
+$GLOBALS['wgSMTP'] = [
+	'host' => getenv( 'SMTP_HOST' ),
+	'IDHost' => getenv( 'SMTP_IDHOST' ),
+	'port' => getenv( 'SMTP_PORT' ) ?? 25,
+	'auth' => getenv( 'SMTP_USER' ) ? true : false,
+	'username' => getenv( 'SMTP_USER' ),
+	'password' => getenv( 'SMTP_PASS' ),
+];
+$GLOBALS['wgMathoidCli'] = [
+	'/usr/local/bin/mathoid-remote',
+	( getenv( 'FORMULA_PROTOCOL' ) ?? 'http' )
+	. '://'
+	. ( getenv( 'FORMULA_HOST' ) )
+	. ':'
+	. ( getenv( 'FORMULA_PORT' ) ),
+];
+
+if ( getenv( 'DEV_WIKI_DEBUG' ) ) {
+	#$GLOBALS['wgDebugToolbar'] = true;
+	$GLOBALS['wgShowExceptionDetails'] = true;
+	$GLOBALS['wgDevelopmentWarnings'] = true;
+	$GLOBALS['wgDebugDumpSql'] = true;
+}
 
 require_once '/data/pre-init-settings.php';
+
 require_once "$IP/LocalSettings.BlueSpice.php";
+
+wfLoadExtension( 'BlueSpiceExtendedSearch' );
+$GLOBALS['bsgOverrideESBackendHost'] = getenv( 'SEARCH_HOST' );
+$GLOBALS['bsgOverrideESBackendPort'] = getenv( 'SEARCH_PORT' ) ?? '9200';
+$GLOBALS['bsgOverrideESBackendTransport'] = getenv( 'SEARCH_PROTOCOL' ) ?? 'http';
+$GLOBALS['bsgOverrideESBackendUser'] = getenv( 'SEARCH_USER' ) ?? '';
+$GLOBALS['bsgOverrideESBackendPass'] = getenv( 'SEARCH_PASS' ) ?? '';
+
+wfLoadExtension( 'BlueSpiceUEModulePDF' );
+$GLOBALS['bsgOverrideUEModulePDFPdfServiceURL'] =
+	( getenv( 'PDF_PROTOCOL' ) ?? 'http' )
+	. '://'
+	. ( getenv( 'PDF_HOST' ) )
+	. ':'
+	. ( getenv( 'PDF_PORT' ) )
+	. '/BShtml2PDF';
+
 require_once '/data/post-init-settings.php';

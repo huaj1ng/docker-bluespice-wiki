@@ -1,11 +1,7 @@
 FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y \
-	apache2 \
-	libapache2-mod-php \
-	openssl \
-	imagemagick \
-	dvipng \
+	nginx \
 	php \
 	php-xml \
 	php-mbstring \
@@ -20,14 +16,13 @@ RUN apt-get update && apt-get install -y \
 	php-gd \
 	php-gmp \
 	php-fpm \
-	poppler-utils \
-	python3 \
-	librsvg2-bin \
+	php-openssl \
+	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
 COPY _codebase/w /opt/bluespice/w
-RUN sed -i '/return; \/\/ Disabled. Needs Tomcat/d' /opt/bluespice/w/settings.d/020-BlueSpiceExtendedSearch.php \
-	&& sed -i '/return; \/\/ Disabled. Needs Tomcat/d' _codebase/w/settings.d/020-BlueSpiceUEModulePDF.php
+#RUN sed -i '/return; \/\/ Disabled. Needs Tomcat/d' /opt/bluespice/w/settings.d/020-BlueSpiceExtendedSearch.php \
+#	&& sed -i '/return; \/\/ Disabled. Needs Tomcat/d' /opt/bluespice/w/settings.d/020-BlueSpiceUEModulePDF.php
 COPY opt/bluespice/w/LocalSettings.php /opt/bluespice/w/LocalSettings.php
 
 ADD https://raw.githubusercontent.com/hallowelt/docker-bluespice-formula/main/_client/mathoid-remote /usr/local/bin/mathoid-remote
@@ -35,8 +30,9 @@ COPY usr/local/bin /usr/local/bin
 RUN chmod +x /usr/local/bin/*
 
 COPY etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/mods-available/90-bluespice-overrides.ini
-RUN ln -s /etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/cli/conf.d/90-bluespice-overrides.ini \
-	&& ln -s /etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/apache2/conf.d/90-bluespice-overrides.ini
-COPY etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
+RUN ln -s /etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/cli/conf.d/90-bluespice-overrides.ini
+COPY etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default
+
+EXPOSE 80
 
 ENTRYPOINT ["/usr/local/bin/entrypoint"]
