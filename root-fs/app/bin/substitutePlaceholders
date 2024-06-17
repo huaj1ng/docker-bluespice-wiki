@@ -1,8 +1,13 @@
 #!/bin/php
 <?php
-# Call me like ./substitutePlaceholders /opt/bluespice/w/LocalSettings.php
+# Call me like ./substitutePlaceholders /app/bluespice/w/LocalSettings.php
 
 $file = $argv[1];
+
+echo "\n";
+echo "#############################################\n";
+echo "Substitute placeholders in a $file\n";
+
 if (!file_exists($file)) {
 	echo "File $file does not exist\n";
 	exit( 1 );

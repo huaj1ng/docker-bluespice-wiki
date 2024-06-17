@@ -1,7 +1,7 @@
 server {
 	server_name _;
 	listen 80 default_server;
-	root /opt/bluespice;
+	root /app/bluespice;
 	client_max_body_size 1024m;
 	access_log /dev/stdout;
 	error_log /dev/stderr;

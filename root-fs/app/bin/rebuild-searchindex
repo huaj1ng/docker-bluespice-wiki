@@ -1,7 +1,9 @@
 #!/bin/bash
 
-appDir=/opt/bluespice/w
+appDir=/app/bluespice/w
 
+echo ""
+echo "#############################################"
 echo "Rebuilding search index"
 
 php $appDir/extensions/BlueSpiceExtendedSearch/maintenance/purgeIndexes.php --quick

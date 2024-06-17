@@ -1,7 +1,11 @@
 #!/bin/bash
 
+echo ""
+echo "#############################################"
+echo "Running installation"
+
 timestamp=$(date +%Y%m%d%H%M%S)
-appDir=/opt/bluespice/w
+appDir=/app/bluespice/w
 adminPass=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 20; echo)
 upgradeKey=$(tr -dc a-z0-9 </dev/urandom | head -c 16; echo)
 secretKey=$(tr -dc a-z0-9 </dev/urandom | head -c 64; echo)

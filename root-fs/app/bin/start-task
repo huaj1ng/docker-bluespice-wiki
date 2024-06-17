@@ -7,8 +7,11 @@ else
 	run-updates
 fi
 
+echo ""
+echo "#############################################"
 echo "Starting TaskRunner"
-appDir=/opt/bluespice/w
+
+appDir=/app/bluespice/w
 processRunnerScript=$appDir/vendor/mwstake/mediawiki-component-processmanager/maintenance/processRunner.php
 runjobs_pid=
 processrunner_pid=

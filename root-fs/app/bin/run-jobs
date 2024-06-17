@@ -1,5 +1,5 @@
 #!/bin/bash
 
-appDir=/opt/bluespice/w
+appDir=/app/bluespice/w
 
 php $appDir/maintenance/runJobs.php

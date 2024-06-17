@@ -6,7 +6,9 @@ $dbUser = getenv('DB_USER');
 $dbPass = getenv('DB_PASS');
 $dbName = getenv('DB_NAME');
 
-echo "Checking for database '$dbName' on $dbHost ... ";
+echo "\n";
+echo "#############################################\n";
+echo "Checking for database '$dbName' on $dbHost ... \n";
 
 try {
 	$pdo = new PDO(
