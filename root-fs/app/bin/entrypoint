@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH=$PATH:/app/bin
+
 init-datadirectory
 
 if [ -f /data/.wikienv ]; then

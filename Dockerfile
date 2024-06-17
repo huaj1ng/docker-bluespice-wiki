@@ -24,18 +24,20 @@ RUN apt-get update \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY _codebase/w /opt/bluespice/w
-COPY opt/bluespice/w/LocalSettings.php /opt/bluespice/w/LocalSettings.php
+COPY _codebase/w /app/bluespice/w
+COPY root-fs/app/bluespice/w/LocalSettings.php /app/bluespice/w/LocalSettings.php
+COPY root-fs/app/update-scripts /app/update-scripts
+RUN chmod 755 /app/update-scripts/*.sh
 
 ADD https://raw.githubusercontent.com/hallowelt/docker-bluespice-formula/main/_client/mathoid-remote /usr/local/bin/mathoid-remote
-COPY usr/local/bin /usr/local/bin
-RUN chmod 755 /usr/local/bin/*
+COPY root-fs/app/bin /app/bin
+RUN chmod 755 /app/bin/*
 
-COPY etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/mods-available/90-bluespice-overrides.ini
+COPY root-fs/etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/mods-available/90-bluespice-overrides.ini
 RUN ln -s /etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/cli/conf.d/90-bluespice-overrides.ini
-COPY etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default
-COPY etc/php/8.2/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/www.conf
+COPY root-fs/etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default
+COPY root-fs/etc/php/8.2/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
 EXPOSE 80
 
-ENTRYPOINT ["/usr/local/bin/entrypoint"]
+ENTRYPOINT ["/app/bin/entrypoint"]
