@@ -8,4 +8,4 @@ if [ -f /data/.wikienv ]; then
   source /data/.wikienv
 fi
 
-exec "$@"
+exec sh -c "$@"
