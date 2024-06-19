@@ -37,6 +37,7 @@ COPY root-fs/etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/
 RUN ln -s /etc/php/8.2/mods-available/90-bluespice-overrides.ini /etc/php/8.2/cli/conf.d/90-bluespice-overrides.ini
 COPY root-fs/etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default
 COPY root-fs/etc/php/8.2/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/www.conf
+COPY root-fs/var/www/html /var/www/html
 
 EXPOSE 80
 

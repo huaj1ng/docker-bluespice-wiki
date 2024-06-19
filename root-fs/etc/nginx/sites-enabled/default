@@ -7,6 +7,19 @@ server {
 	error_log /dev/stderr;
 	server_tokens off;
 
+	if (-f /data/maintenance) {
+		return 503;
+	}
+
+	error_page 503 @maintenance;
+	location @maintenance {
+		root /var/www/html;
+		try_files /maintenance.html =503;
+	}
+	location = /maintenance.html {
+		expires -1;
+	}
+
 	location /w {
 		deny all;
 	}
