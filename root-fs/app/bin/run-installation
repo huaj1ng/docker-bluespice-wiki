@@ -12,6 +12,7 @@ secretKey=$(tr -dc a-z0-9 </dev/urandom | head -c 64; echo)
 echo '' > /data/.wikienv
 echo "INTERNAL_WIKI_UPGRADEKEY=$upgradeKey" >> /data/.wikienv
 echo "INTERNAL_WIKI_SECRETKEY=$secretKey" >> /data/.wikienv
+echo "INTERNAL_SIMPLESAMLPHP_ADMIN_PASS=$secretKey" >> /data/.wikienv
 source /data/.wikienv
 
 # `install.php` will not work with an existing LocalSettings.php
@@ -39,6 +40,16 @@ echo "Database installed"
 
 run-updates
 rebuild-searchindex
+
+# Create SAML certificates
+if [ ! -d /data/simplesamlphp ]; then
+	mkdir -p /data/simplesamlphp
+fi
+if [ ! -f /data/simplesamlphp/saml.crt ] || [ ! -f /data/simplesamlphp/saml.pem ]; then
+	openssl req -newkey rsa:3072 -new -x509 -days 3652 -nodes \
+		-out /data/simplesamlphp/saml.crt \
+		-keyout /data/simplesamlphp/saml.pem
+fi
 
 echo "Installation complete"
 echo "You can now access the wiki in your browser at $WIKI_PROTOCOL://$WIKI_HOST:$WIKI_PORT"

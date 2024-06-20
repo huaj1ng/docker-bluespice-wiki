@@ -22,7 +22,7 @@ $customConfig = [
 	],
 	'technicalcontact_name' => getenv( 'WIKI_NAME' ) ?? 'BlueSpice',
 	'technicalcontact_email' => getenv( 'WIKI_EMERGENCYCONTACT' ) ?? '',
-	'auth.adminpassword' => getenv( 'wiki_pass' ),
+	'auth.adminpassword' => getenv( 'INTERNAL_SIMPLESAMLPHP_ADMIN_PASS' ),
 	'admin.protectindexpage' => true,
 	'admin.protectmetadata' => false,
 	'admin.checkforupdates' => false,
