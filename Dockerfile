@@ -28,6 +28,7 @@ COPY _codebase/w /app/bluespice/w
 COPY root-fs/app/bluespice/w/LocalSettings.php /app/bluespice/w/LocalSettings.php
 COPY _codebase/simplesamlphp /app/simplesamlphp
 COPY root-fs/app/simplesamlphp/ /app/simplesamlphp/
+RUN ln -s /app/simplesamlphp/public /app/bluespice/w/_sp
 COPY root-fs/app/update-scripts /app/update-scripts
 RUN chmod 755 /app/update-scripts/*.sh
 
