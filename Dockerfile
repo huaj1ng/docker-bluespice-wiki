@@ -2,7 +2,6 @@ FROM debian:bookworm-slim
 
 RUN apt-get update \
 	&& apt-get install -y \
-		imagemagick \
 		nginx \
 		openssl \
 		php \
@@ -19,12 +18,14 @@ RUN apt-get update \
 		php-opcache \
 		php-xml \
 		php-zip \
+		php-ldap \
 		poppler-utils \
 		python3 \
+		imagemagick \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY _codebase/w /app/bluespice/w
+COPY _codebase/bluespice /app/bluespice/w
 COPY root-fs/app/bluespice/w/LocalSettings.php /app/bluespice/w/LocalSettings.php
 COPY _codebase/simplesamlphp /app/simplesamlphp
 COPY root-fs/app/simplesamlphp/ /app/simplesamlphp/
