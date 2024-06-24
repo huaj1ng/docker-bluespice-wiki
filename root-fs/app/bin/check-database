@@ -20,7 +20,15 @@ try {
 		PDO::ATTR_ERRMODE,
 		PDO::ERRMODE_EXCEPTION
 	);
+
+	# Check if the database is empty
+	$tables = $pdo->query( "SHOW TABLES" );
+	if ( $tables->rowCount() == 0 ) {
+		echo "FAILED\nDatabase is empty\n";
+		exit( 1 );
+	}
 	echo "OK\n";
+	exit( 0 );
 } catch ( PDOException $e ) {
 	$message = $e->getMessage();
 	echo "FAILED\n$message\n";
@@ -28,5 +36,5 @@ try {
 	echo "Pass: " . substr( $dbPass, 0, 1 ) . "..." . substr( $dbPass, -1 ) . "\n";
 	echo "Host: $dbHost\n";
 	echo "Name: $dbName\n";
-	exit( 1 );
+	exit( 2 );
 }

@@ -52,6 +52,12 @@ server {
 		rewrite /webdav/.* /w/webdav.php;
 	}
 
+	location ~ ^/_sp(/.+)$ {
+		if (!-f /data/simplesamlphp/saml_idp_metadata.xml) {
+			return 301 /wiki;
+		}
+	}
+
 	location ~ ^/_sp/(index|logout|module|errorreport)\.php(/.+?)$ {
 		include fastcgi.conf;
 		fastcgi_split_path_info ^(.+?\.php)(/.+)$;

@@ -92,18 +92,18 @@ if ( getenv( 'DEV_WIKI_DEBUG_LOGCHANNELS' ) ) {
 
 // Taken from `extensions/BlueSpiceWikiFarm/SimpleFarmer/src/Dispatcher.php`
 // Not all of this may be required
-$GLOBALS['wgUploadDirectory'] = "/data/images";
+$GLOBALS['wgUploadDirectory'] = "/data/bluespice/images";
 $GLOBALS['wgReadOnlyFile'] = "{$GLOBALS['wgUploadDirectory']}/lock_yBgMBwiR";
 $GLOBALS['wgFileCacheDirectory'] = "{$GLOBALS['wgUploadDirectory']}/cache";
 $GLOBALS['wgDeletedDirectory'] = "{$GLOBALS['wgUploadDirectory']}/deleted";
-$GLOBALS['wgCacheDirectory'] = "/data/cache";
+$GLOBALS['wgCacheDirectory'] = "/data/bluespice/cache";
 
-define( 'BSDATADIR', "/data/extensions/BlueSpiceFoundation/data" ); //Present
+define( 'BSDATADIR', "/data/bluespice/extensions/BlueSpiceFoundation/data" ); //Present
 define( 'BS_DATA_DIR', "{$GLOBALS['wgUploadDirectory']}/bluespice" ); //Future
 define( 'BS_CACHE_DIR', "{$GLOBALS['wgFileCacheDirectory']}/bluespice" );
 define( 'BS_DATA_PATH', "{$GLOBALS['wgUploadPath']}/bluespice" );
 
-require_once '/data/pre-init-settings.php';
+require_once '/data/bluespice/pre-init-settings.php';
 
 require_once "$IP/LocalSettings.BlueSpice.php";
 
@@ -129,4 +129,4 @@ $GLOBALS['wgPdfPostProcessor'] = $GLOBALS['wgImageMagickConvertCommand'];
 $GLOBALS['wgPdfInfo'] = '/usr/bin/pdfinfo';
 $GLOBALS['wgPdftoText'] = '/usr/bin/pdftotext';
 
-require_once '/data/post-init-settings.php';
+require_once '/data/bluespice/post-init-settings.php';
