@@ -18,6 +18,8 @@ source /data/.wikienv
 # `install.php` will not work with an existing LocalSettings.php
 mv $appDir/LocalSettings.php $appDir/LocalSettings.php.bak
 
+$adminName=${WIKI_ADMIN_NAME:-Admin}
+
 php $appDir/maintenance/install.php \
 	--dbserver=$DB_HOST \
 	--dbname=$DB_NAME \
@@ -29,7 +31,7 @@ php $appDir/maintenance/install.php \
 	--lang=$WIKI_LANG \
 	--scriptpath=/w \
 	$WIKI_NAME \
-	Admin \
+	$adminName \
 	| tee /data/logs/install-$timestamp.log
 
 # Restore the original LocalSettings.php
@@ -41,14 +43,12 @@ echo "Database installed"
 run-updates
 rebuild-searchindex
 
-# Create SAML certificates
-if [ ! -d /data/simplesamlphp ]; then
-	mkdir -p /data/simplesamlphp
-fi
-if [ ! -f /data/simplesamlphp/saml.crt ] || [ ! -f /data/simplesamlphp/saml.pem ]; then
+# Create the simplesamlphp certificates
+if [ ! -f /data/simplesamlphp/certs/saml.crt ]
+	|| [ ! -f /data/simplesamlphp/certs/saml.pem ]; then
 	openssl req -newkey rsa:3072 -new -x509 -days 3652 -nodes \
-		-out /data/simplesamlphp/saml.crt \
-		-keyout /data/simplesamlphp/saml.pem
+		-out /data/simplesamlphp/certs/saml.crt \
+		-keyout /data/simplesamlphp/certs/saml.pem
 fi
 
 echo "Installation complete"

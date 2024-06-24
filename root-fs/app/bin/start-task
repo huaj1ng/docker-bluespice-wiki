@@ -2,9 +2,13 @@
 
 check-database
 if [ $? -ne 0 ]; then
+	date > /data/maintenance
 	run-installation
+	rm /data/maintenance
 else
+	date > /data/maintenance
 	run-updates
+	rm /data/maintenance
 fi
 
 echo ""

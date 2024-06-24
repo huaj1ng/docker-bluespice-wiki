@@ -26,15 +26,18 @@ server {
 
 	location ~ ^/w/(api|dynamic_file|index|load|opensearch_desc|thumb_handler|thumb)\.php$ {
 		include fastcgi.conf;
+		fastcgi_split_path_info ^(.+?\.php)(/.+)$;
+		fastcgi_param PATH_INFO $fastcgi_path_info;
 		fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
-		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_pass unix:/var/run/php/php-fpm.sock;
 	}
 
 	location ~ ^/w/(img_auth|nsfr_img_auth|rest|webdav)\.php(/.+?)$ {
 		include fastcgi.conf;
 		fastcgi_split_path_info ^(.+?\.php)(/.+)$;
+		fastcgi_param PATH_INFO $fastcgi_path_info;
 		fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
-		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_pass unix:/var/run/php/php-fpm.sock;
 	}
 
 	location ~ /w/BUILDINFO {
@@ -52,8 +55,9 @@ server {
 	location ~ ^/_sp/(index|logout|module|errorreport)\.php(/.+?)$ {
 		include fastcgi.conf;
 		fastcgi_split_path_info ^(.+?\.php)(/.+)$;
+		fastcgi_param PATH_INFO $fastcgi_path_info;
 		fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
-		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_pass unix:/var/run/php/php-fpm.sock;
 		break;
 	}
 
@@ -72,6 +76,6 @@ server {
 	}
 
 	location = / {
-		return 301 //$host/wiki$request_uri;
+		return 301 /wiki/;
 	}
 }

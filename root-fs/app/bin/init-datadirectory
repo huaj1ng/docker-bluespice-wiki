@@ -5,11 +5,15 @@ echo "#############################################"
 echo "Init data directory"
 
 directories=(
-  /data/cache
-  /data/extensions/BlueSpiceFoundation/data
-  /data/images
-  /data/logs/postupdate
-  /data/logs
+  /data/bluespice/cache
+  /data/bluespice/extensions/BlueSpiceFoundation/data
+  /data/bluespice/images
+  /data/bluespice/logs/postupdate
+  /data/bluespice/logs
+  /data/simplesamlphp/cache
+  /data/simplesamlphp/certs
+  /data/simplesamlphp/data
+  /data/simplesamlphp/logs
 )
 
 for directory in "${directories[@]}"; do
@@ -19,9 +23,9 @@ for directory in "${directories[@]}"; do
 done
 
 declare -A files
-files[/data/pre-init-settings.php]="<?php"
-files[/data/post-init-settings.php]="<?php"
-files[/data/logs/postupdate/README.md]="Do not delete files from this directory!"
+files[/data/bluespice/pre-init-settings.php]="<?php"
+files[/data/bluespice/post-init-settings.php]="<?php"
+files[/data/bluespice/logs/postupdate/README.md]="Do not delete files from this directory!"
 
 for file in "${!files[@]}"; do
   if [ ! -f "$file" ]; then

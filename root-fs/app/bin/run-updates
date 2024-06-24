@@ -3,7 +3,10 @@
 timestamp=$(date +%Y%m%d%H%M%S)
 appDir=/app/bluespice/w
 
-baseVersion=$(cat /data/logs/baseversion)
+baseVersion=""
+if [ -f /data/logs/baseversion ]; then
+	baseVersion=$(cat /data/logs/baseversion)
+fi
 version=$(cat $appDir/BLUESPICE-VERSION)
 
 if [ "$baseVersion" == "$version" ]; then
