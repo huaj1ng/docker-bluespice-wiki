@@ -15,9 +15,6 @@ echo "INTERNAL_WIKI_SECRETKEY=$secretKey" >> /data/.wikienv
 echo "INTERNAL_SIMPLESAMLPHP_ADMIN_PASS=$secretKey" >> /data/.wikienv
 source /data/.wikienv
 
-# `install.php` will not work with an existing LocalSettings.php
-mv $appDir/LocalSettings.php $appDir/LocalSettings.php.bak
-
 # TODO: make admin name configurable
 php $appDir/maintenance/install.php \
 	--dbserver=$DB_HOST \
@@ -33,9 +30,8 @@ php $appDir/maintenance/install.php \
 	Admin \
 	| tee /data/bluespice/logs/install-$timestamp.log
 
-# Restore the original LocalSettings.php
+# Remove the LocalSettings.php file created by the install script
 rm $appDir/LocalSettings.php
-mv $appDir/LocalSettings.php.bak $appDir/LocalSettings.php
 
 echo "Database installed"
 
