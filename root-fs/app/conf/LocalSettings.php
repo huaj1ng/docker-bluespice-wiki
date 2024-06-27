@@ -129,4 +129,24 @@ $GLOBALS['wgPdfPostProcessor'] = $GLOBALS['wgImageMagickConvertCommand'];
 $GLOBALS['wgPdfInfo'] = '/usr/bin/pdfinfo';
 $GLOBALS['wgPdftoText'] = '/usr/bin/pdftotext';
 
+### Dynamic assembly of $GLOBALS['wgDrawioEditorBackendUrl']
+if ( getenv( 'DIAGRAM_HOST' ) ) {
+	$protocol = getenv( 'DIAGRAM_PROTOCOL' ) ?? 'http';
+	$host = getenv( 'DIAGRAM_HOST' ) ?? 'localhost';
+	$portSuffix = getenv( 'DIAGRAM_PORT' ) ? ':' . getenv( 'DIAGRAM_PORT' ) : '';
+	$path = getenv( 'DIAGRAM_PATH' ) ?? '';
+	if ( $protocol === 'http' && $portSuffix === ':80' ) {
+		$portSuffix = '';
+	} elseif ( $protocol === 'https' && $portSuffix === ':443' ) {
+		$portSuffix = '';
+	}
+	$GLOBALS['wgDrawioEditorBackendUrl'] = "$protocol://$host{$portSuffix}{$path}";
+	unset( $protocol );
+	unset( $host );
+	unset( $portSuffix );
+	unset( $path );
+}
+### end
+
+
 require_once '/data/bluespice/post-init-settings.php';
