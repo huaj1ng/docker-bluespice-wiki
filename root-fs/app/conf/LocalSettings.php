@@ -148,5 +148,23 @@ if ( getenv( 'DIAGRAM_HOST' ) ) {
 }
 ### end
 
+### Dynamic assembly of $GLOBALS['wgCollabPadsBackendServiceURL']
+if ( getenv( 'COLLABPADSBACKEND_HOST' ) ) {
+	$protocol = getenv( 'COLLABPADSBACKEND_PROTOCOL' ) ?? 'http';
+	$host = getenv( 'COLLABPADSBACKEND_HOST' ) ?? 'localhost';
+	$portSuffix = getenv( 'COLLABPADSBACKEND_PORT' ) ? ':' . getenv( 'DIAGRAM_PORT' ) : '';
+	$path = getenv( 'COLLABPADSBACKEND_PATH' ) ?? '';
+	if ( $protocol === 'http' && $portSuffix === ':80' ) {
+		$portSuffix = '';
+	} elseif ( $protocol === 'https' && $portSuffix === ':443' ) {
+		$portSuffix = '';
+	}
+	$GLOBALS['wgCollabPadsBackendServiceURL'] = "$protocol://$host{$portSuffix}{$path}";
+	unset( $protocol );
+	unset( $host );
+	unset( $portSuffix );
+	unset( $path );
+}
+### end
 
 require_once '/data/bluespice/post-init-settings.php';
