@@ -36,12 +36,18 @@ $GLOBALS['wgDBpassword'] = getenv( 'DB_PASS' );
 $GLOBALS['wgDBprefix'] = getenv( 'DB_PREFIX' ) ?? '';
 $GLOBALS['wgDBTableOptions'] = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 $GLOBALS['wgSharedTables'][] = "actor";
-$GLOBALS['wgMainCacheType'] = CACHE_DB;
-$GLOBALS['wgMemCachedServers'] = [
-	( getenv( 'MEMCACHED_HOST' ) ?? 'cache' )
-	. ':'
-	. ( getenv( 'MEMCACHED_PORT' ) ?? '11211' )
-];
+$GLOBALS['wgMainCacheType'] = CACHE_ACCEL;
+if ( getenv( 'CACHE_HOST' ) ) {
+	$GLOBALS['wgMemCachedServers'] = [
+		( getenv( 'CACHE_HOST' ) ?? 'cache' )
+		. ':'
+		. ( getenv( 'CACHE_PORT' ) ?? '11211' )
+	];
+	$GLOBALS['wgMainCacheType'] = CACHE_MEMCACHED;
+}
+$GLOBALS['wgMessageCacheType'] = CACHE_ACCEL;
+$GLOBALS['wgLocalisationCacheConf']['store'] = 'array';
+$GLOBALS['wgLocalisationCacheConf']['storeDirectory'] = "/tmp/";
 $GLOBALS['wgEnableUploads'] = true;
 $GLOBALS['wgUploadPath'] = $GLOBALS['wgScriptPath'] . '/img_auth.php';
 $GLOBALS['wgUseImageMagick'] = true;
