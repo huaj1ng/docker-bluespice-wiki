@@ -22,6 +22,11 @@ echo "Running updates"
 echo "Version: $version"
 
 php $appDir/maintenance/update.php --quick | tee -a /data/logs/update-$timestamp.log
-php $runForAllScript --script='maintenance/update.php' --args='--quick' | tee -a /data/logs/update-$timestamp.log
+
+if [ -f $runForAllScript ]; then
+	php $runForAllScript --script='maintenance/update.php' --args='--quick' | tee -a /data/logs/update-$timestamp.log
+fi
+
+
 
 echo $version > /data/logs/baseversion
