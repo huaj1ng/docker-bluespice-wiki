@@ -1,7 +1,11 @@
 #!/bin/bash
+set -o errexit
+set -o nounset
+set -o pipefail
 
 timestamp=$(date +%Y%m%d%H%M%S)
 appDir=/app/bluespice/w
+runForAllScript=$appDir/extensions/BlueSpiceWikiFarm/SimpleFarmer/maintenance/RunForAll.php
 
 baseVersion=""
 if [ -f /data/logs/baseversion ]; then
@@ -17,6 +21,7 @@ fi
 echo "Running updates"
 echo "Version: $version"
 
-php $appDir/maintenance/update.php --quick | tee /data/logs/update-$timestamp.log
+php $appDir/maintenance/update.php --quick | tee -a /data/logs/update-$timestamp.log
+php $runForAllScript --script='maintenance/update.php' --args='--quick' | tee -a /data/logs/update-$timestamp.log
 
 echo $version > /data/logs/baseversion
