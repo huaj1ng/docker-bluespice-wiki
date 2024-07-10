@@ -5,7 +5,6 @@ echo "#############################################"
 echo "Init data directory"
 
 directories=(
-  /data/bluespice/cache
   /data/bluespice/extensions/BlueSpiceFoundation/data
   /data/bluespice/images
   /data/bluespice/logs/postupdate
