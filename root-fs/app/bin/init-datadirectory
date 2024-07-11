@@ -18,11 +18,7 @@ directories=(
   /data/simplesamlphp/logs
 )
 
-appDir=/app/bluespice/w
-runForAllScript=$appDir/extensions/BlueSpiceWikiFarm/SimpleFarmer/maintenance/RunForAll.php
-bluespiceDataDir=/data/bluespice
-
-if [ -f $runForAllScript ]; then
+if [ "${VERSION}" == "farm" ]; then
 	directories=(
   /data/bluespice/extensions/BlueSpiceFoundation/data
   /data/bluespice/images
@@ -37,24 +33,11 @@ if [ -f $runForAllScript ]; then
   )
 fi
 
-BSDATALIST="/tmp/bs_datalist.dat"
-/usr/bin/find $bluespiceDataDir -maxdepth 1 -printf "%f\n"  > $BSDATALIST
-
-while IFS= read -r element
-do 
-  if [ "${element}" == "extension" ]; then
-		ln -fs ${bluespiceDataDir}/${element}/BlueSpiceFoundation/data ${appDir}/${element}/BlueSpiceFoundation/data
-    continue
-	fi
-	if [ "${appDir}/${element}" ]; then
-		rm -fr ${appDir}/${element}
-    ln -fs ${bluespiceDataDir}/${element} ${appDir}/${element}
-	fi
-
-done < "${BSDATALIST}" &
-rm -fr ${BSDATALIST}
-
-
+for directory in "${directories[@]}"; do
+  if [ ! -d "$directory" ]; then
+    mkdir -p "$directory"
+  fi
+done
 
 declare -A files
 files[/data/bluespice/pre-init-settings.php]="<?php"
