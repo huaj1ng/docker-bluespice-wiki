@@ -13,6 +13,7 @@ if [ -f /data/logs/baseversion ]; then
 	baseVersion=$(cat /data/logs/baseversion)
 fi
 version=$(cat $appDir/BLUESPICE-VERSION)
+edition=$(cat $appDir/BLUESPICE-EDITION)
 
 if [ "$baseVersion" == "$version" ]; then
 	echo "No version change, skipping updates"
@@ -22,12 +23,12 @@ fi
 echo "Running updates"
 echo "Version: $version"
 
-php $appDir/maintenance/update.php --conf /app/conf/LocalSettings.php --quick | tee -a /data/logs/update-$timestamp.log
-
-if [ -f $runForAllScript ]; then
+if [ "${edtion}" = "farm" ]; then
+	sed -i 's/.BlueSpice.php/Append.php/'
+	php $appDir/maintenance/update.php --conf /app/conf/LocalSettings.php --quick | tee -a /data/logs/update-$timestamp.log
 	php $runForAllScript --script='maintenance/update.php' --args='--quick' | tee -a /data/logs/update-$timestamp.log
 fi
 
-
+php $appDir/maintenance/update.php --conf /app/conf/LocalSettings.php --quick | tee -a /data/logs/update-$timestamp.log
 
 echo $version > /data/logs/baseversion
