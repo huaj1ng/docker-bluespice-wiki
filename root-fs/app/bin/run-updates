@@ -6,8 +6,6 @@ set -o pipefail
 timestamp=$(date +%Y%m%d%H%M%S)
 appDir=/app/bluespice/w
 
-runForAllScript=$appDir/extensions/BlueSpiceWikiFarm/SimpleFarmer/maintenance/RunForAll.php
-
 baseVersion=""
 if [ -f /data/logs/baseversion ]; then
 	baseVersion=$(cat /data/logs/baseversion)
@@ -26,7 +24,7 @@ echo "Version: $version"
 if [ "${edtion}" = "farm" ]; then
 	sed -i 's/.BlueSpice.php/Append.php/'
 	php $appDir/maintenance/update.php --conf /app/conf/LocalSettings.php --quick | tee -a /data/logs/update-$timestamp.log
-	php $runForAllScript --script='maintenance/update.php' --args='--quick' | tee -a /data/logs/update-$timestamp.log
+	php $runForAllScript --script='maintenance/update.php' --conf /app/conf/LocalSettings.php --args='--quick' | tee -a /data/logs/update-$timestamp.log
 fi
 
 php $appDir/maintenance/update.php --conf /app/conf/LocalSettings.php --quick | tee -a /data/logs/update-$timestamp.log
