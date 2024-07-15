@@ -33,6 +33,7 @@ RUN apt-get -y --no-install-recommends install \
 	poppler-utils \
 	python3 \
 	sudo \
+	vim \
 	librsvg2-bin \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
