@@ -21,6 +21,12 @@ unset( $portSuffix );
 $GLOBALS['wgSitename'] = getenv( 'WIKI_NAME' ) ?? 'BlueSpice';
 $GLOBALS['wgScriptPath'] = "/w";
 $GLOBALS['wgArticlePath'] = '/wiki/$1';
+if ( getenv( 'EDITION' === "FARM") ) {
+	$GLOBALS['wgArticlePath'] = "/wiki/$1";
+	if( FARMER_IS_ROOT_WIKI_CALL === false ) {
+        $GLOBALS['wgArticlePath'] = "/" . FARMER_CALLED_INSTANCE . "/wiki/$1";
+	}
+}
 $GLOBALS['wgResourceBasePath'] = $GLOBALS['wgScriptPath'];
 $GLOBALS['wgLogos'] = [
 	'1x' => $GLOBALS['wgResourceBasePath'] . '/resources/assets/change-your-logo.svg',
@@ -109,10 +115,16 @@ define( 'BS_DATA_DIR', "{$GLOBALS['wgUploadDirectory']}/bluespice" ); //Future
 define( 'BS_CACHE_DIR', "{$GLOBALS['wgFileCacheDirectory']}/bluespice" );
 define( 'BS_DATA_PATH', "{$GLOBALS['wgUploadPath']}/bluespice" );
 
+$GLOBALS['bsgSimpleFarmer_instanceDirectory'] = '/data/bluespice/_sf_instances/';
+$GLOBALS['bsgSimpleFarmer_archiveDirectory'] = '/data/bluespice/_sf_archives/';
+
 require_once '/data/bluespice/pre-init-settings.php';
-
+if ( getenv( 'EDITION' === "FARM") ) {
+	require_once "$IP/extensions/BlueSpiceWikiFarm/BlueSpiceWikiFarm.php";
+}
+else {	
 require_once "$IP/LocalSettings.BlueSpice.php";
-
+}
 wfLoadExtension( 'BlueSpiceExtendedSearch' );
 $GLOBALS['bsgOverrideESBackendHost'] = getenv( 'SEARCH_HOST' );
 $GLOBALS['bsgOverrideESBackendPort'] = getenv( 'SEARCH_PORT' ) ?? '9200';
