@@ -24,8 +24,8 @@ echo "Starting TaskRunner"
 
 appDir=/app/bluespice/w
 processRunnerScript=$appDir/vendor/mwstake/mediawiki-component-processmanager/maintenance/processRunner.php
-runjobs_pid=
-processrunner_pid=
+runjobs_pid=/tmp/bluespice_runjobs.pid
+processrunner_pid=/tmp/process_runner.pid
 
 kill_runner() {
 	kill $runjobs_pid 2> /dev/null
@@ -36,30 +36,7 @@ substitutePlaceholders /app/bin/config/backub_conf.json
 
 trap kill_runner SIGTERM
 
+
 while true; do
-	ps -p $runjobs_pid > /dev/null
-	if [ $? -ne 0 ]; then
-		echo "Starting runJobs"
-		php \
-			$appDir/maintenance/runJobs.php \
-			--maxjobs=10 \
-			&
-		runjobs_pid=$!
-	fi
-
-	if [ -f $processRunnerScript ]; then
-		ps -p $processrunner_pid > /dev/null
-		if [ $? -ne 0 ]; then
-			echo "Starting ProcessRunner"
-			php \
-				\
-				$appDir/maintenance/Maintenance.php \
-				--wait \
-				--max-processes=10 \
-				&
-			processrunner_pid=$!
-		fi
-	fi
-
 	sleep 2
 done
