@@ -50,4 +50,4 @@ for file in "${!files[@]}"; do
   fi
 done
 
-chown -R www-data:www-data /data
+chown -R bluespice:bluespice /data

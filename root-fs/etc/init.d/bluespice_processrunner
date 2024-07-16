@@ -9,7 +9,7 @@
 # Description:       This executes runjobs service parallely for multiple wiki farm instances.
 ### END INIT INFO
 
-SCRIPT=/app/bin/parallel-processrunner
+SCRIPT=/app/bin/parallel-processRunner
 RUNAS=bluespice
 
 PIDFILE=/tmp/process_runner.pid

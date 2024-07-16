@@ -78,7 +78,7 @@ $GLOBALS['wgSMTP'] = [
 	'password' => getenv( 'SMTP_PASS' ),
 ];
 $GLOBALS['wgMathoidCli'] = [
-	'/usr/local/bin/mathoid-remote',
+	'/app/bin/mathoid-remote',
 	( getenv( 'FORMULA_PROTOCOL' ) ?? 'http' )
 	. '://'
 	. ( getenv( 'FORMULA_HOST' ) )

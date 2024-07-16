@@ -46,12 +46,12 @@ COPY ./_codebase/simplesamlphp/ /app/simplesamlphp
 RUN chown www-data: /app/simplesamlphp/public
 RUN ln -s /app/simplesamlphp/public /app/bluespice/_sp
 COPY ./root-fs/etc/nginx/sites-enabled/* /etc/nginx/sites-enabled
+COPY ./root-fs/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./root-fs/app/bin /app/bin
 COPY ./root-fs/app/conf /app/conf
 ADD https://raw.githubusercontent.com/hallowelt/docker-bluespice-formula/main/_client/mathoid-remote /app/bin
 ADD https://github.com/hallowelt/misc-mediawiki-adm/releases/latest/download/mediawiki-adm /app/bin
 ADD https://github.com/hallowelt/misc-parallel-runjobs-service/releases/download/1.0.0/parallel-runjobs-service /app/bin
-
 COPY ./root-fs/etc/php/8.x/fpm/conf.d/* /etc/php/8.2/fpm/conf.d
 COPY ./root-fs/etc/php/8.x/fpm/php-fpm.conf /etc/php/8.2/fpm/
 COPY ./root-fs/etc/php/8.x/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/
@@ -75,8 +75,10 @@ RUN  apt-get -y auto-remove \
  RUN addgroup --gid $GID bluespice \
   && adduser --uid $UID --gid $GID --disabled-password --gecos "" bluespice \
   &&  echo 'bluespice ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
-  && usermod -aG www-data bluespice
+  && usermod -aG www-data bluespice \
+  && chown -R 1002:1002 /app/bin \
+  && chown bluespice:www-data /var/run/php 
 WORKDIR /app
 USER bluespice
-EXPOSE 80
+EXPOSE 9090
 ENTRYPOINT ["/app/bin/entrypoint"]

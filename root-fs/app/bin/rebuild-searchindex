@@ -8,11 +8,10 @@ echo ""
 echo "#############################################"
 echo "Rebuilding search index"
 
+
 appDir=/app/bluespice/w
-runForAllScript=$appDir/extensions/BlueSpiceWikiFarm/SimpleFarmer/maintenance/RunForAll.php
 
-
-if [[ ( $1 == "--help" ) || ( $1 == "-h" ) ]]; then
+if [[ ( "$1" == "--help" ) || ( "$1" == "-h" ) ]]; then
     echo "use without Argument for rebuilding main BS"
     echo "use with --all/-a for all Subinstances"
     echo "use with --sfr aa bb cc  to rebuild Instances aa , bb ,cc"
@@ -20,7 +19,7 @@ if [[ ( $1 == "--help" ) || ( $1 == "-h" ) ]]; then
 fi
 
 
-if [[ -z $1 ]]; then
+if [[ ($1 == "--main") ]]; then
 /usr/bin/php $appDir/extensions/BlueSpiceExtendedSearch/maintenance/purgeIndexes.php --quick
 /usr/bin/php $appDir/extensions/BlueSpiceExtendedSearch/maintenance/initBackends.php --quick
 /usr/bin/php $appDir/extensions/BlueSpiceExtendedSearch/maintenance/rebuildIndex.php --quick
@@ -45,4 +44,3 @@ if [[ $1 == "--sfr" ]];	then
         shift 1;
     done
 fi
-echo "please run /usr/local/bin/runJobs"

@@ -12,7 +12,7 @@
 SCRIPT=/app/bin/parallel-runjobs-service -c /app/bin/config/runjobs_config.yaml
 RUNAS=bluespice
 
-PIDFILE=/var/run/bluespice_runjobs.pid
+PIDFILE=/tmp/bluespice_runjobs.pid
 
 start() {
   if [ -f $PIDFILE ] && [ -s $PIDFILE ] && kill -0 $(cat $PIDFILE); then

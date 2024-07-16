@@ -14,7 +14,7 @@ if [ $? -ne 0 ]; then
 	rm /data/maintenance
 else
 	date > /data/maintenance
-	run-updates
+	#run-updates
 	rm /data/maintenance
 fi
 
@@ -22,21 +22,19 @@ echo ""
 echo "#############################################"
 echo "Starting TaskRunner"
 
-appDir=/app/bluespice/w
-processRunnerScript=$appDir/vendor/mwstake/mediawiki-component-processmanager/maintenance/processRunner.php
-runjobs_pid=/tmp/bluespice_runjobs.pid
-processrunner_pid=/tmp/process_runner.pid
 
-kill_runner() {
-	kill $runjobs_pid 2> /dev/null
-	kill $processrunner_pid 2> /dev/null
-}
 ##add Variables to Scripts
-substitutePlaceholders /app/bin/config/backub_conf.json
+substitutePlaceholders /app/bin/config/backup_conf.json
+substitutePlaceholders /app/bin/config/settings.php
 
-trap kill_runner SIGTERM
+
+echo "Starting runJobs"
+/app/bin/parallel-runjobs-service \
+--config /app/bin/config/runJobs_conf.yaml \
+	&
 
 
-while true; do
-	sleep 2
-done
+echo "Starting ProcessRunner"
+/app/bin/parallel-processRunner &
+
+sleep inf
