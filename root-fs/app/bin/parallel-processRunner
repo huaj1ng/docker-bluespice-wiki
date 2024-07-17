@@ -7,39 +7,24 @@ echo "#############################################"
 echo "Starting TaskRunner"
 
 appDir=/app/bluespice/w
-instancesRoot=/data/bluespice/_sf_instances
 processRunnerScript=$appDir/vendor/mwstake/mediawiki-component-processmanager/maintenance/processRunner.php
 
-php \
-$processRunnerScript \
-$appDir/maintenance/Maintenance.php \
---max-processes=10 \
-&
+while true; do
+    if [ "${EDITION}" == "PRO" ]; then
+        php \
+        $processRunnerScript \
+        $appDir/maintenance/Maintenance.php \
+        --max-processes=100 \
+        --wait \
+        &
+        
+    fi
 
-if [ "${EDITION}" == "FARM" ]; then
-
-    BSDIRLIST="/tmp/bs_sfrlist.dat"
-    /usr/bin/find $instancesRoot -maxdepth 1 -type d -printf "%f\n"  > $BSDIRLIST
-
-    while IFS= read -r sfr 
-
-        local_settings_file="${instancesRoot}/${sfr}/LocalSettings.php"
-        suspended_file="${instancesRoot}/${sfr}/SUSPENDED"
-
-        if [ ! -f "$local_settings_file" ]; then
-            continue
-        fi
-
-        if [ -f "$suspended_file" ]; then
-            continue
-        fi
-
-        do 
-            php \
-            $processRunnerScript \
-            $appDir/maintenance/Maintenance.php \
-            --max-processes=10 \
-            --args="--sfr ${sfr}" \
-            &
-        done
-fi
+    if [ "${EDITION}" == "FARM" ]; then
+        php \
+        &appDir/extensions/BlueSpiceWikiFarm/SimpleFarmer/maintenance/FarmProcessRunner.php \
+        &
+        
+    fi
+    sleep 60
+done

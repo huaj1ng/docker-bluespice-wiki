@@ -12,29 +12,38 @@ if [ $? -ne 0 ]; then
 		exit 1
 	fi
 	rm /data/maintenance
-else
-	date > /data/maintenance
-	#run-updates
-	rm /data/maintenance
 fi
+
 
 echo ""
 echo "#############################################"
+if [ "$1" == "--runAll" ]
 echo "Starting TaskRunner"
-
+fi
 
 ##add Variables to Scripts
 substitutePlaceholders /app/bin/config/backup_conf.json
 substitutePlaceholders /app/bin/config/settings.php
 
+if [ "$1" == "--runJobs" || "$1" == "--runAll" ]
+	
+	echo "Starting update"
+	date > /data/maintenance
+	run-updates
+	rm /data/maintenance
 
-echo "Starting runJobs"
-/app/bin/parallel-runjobs-service \
---config /app/bin/config/runJobs_conf.yaml \
-	&
-
-
-echo "Starting ProcessRunner"
-/app/bin/parallel-processRunner &
-
+	echo "Starting runJobs"
+	/app/bin/parallel-runjobs-service \
+	--config /app/bin/config/runJobs_conf.yaml &
+fi
+if [ "$1" == "--runProcessRunner" || "$1" == "--runAll" ]
+	echo "Starting ProcessRunner"
+	/app/bin/parallel-processRunner &
+fi
+if ["$1" == "--runBackup" || "$1" == "--runAll" ]
+	echo "Starting Backup-Agent"
+	echo "Backup daily at" $BACKUP_HOUR
+	/app/bin/backup-loop &
+fi
 sleep inf
+
