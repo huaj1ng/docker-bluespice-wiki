@@ -1,7 +1,10 @@
 #!/bin/bash
+set -o errexit
+set -o nounset
+set -o pipefail
 
 substitutePlaceholders /etc/nginx/sites-enabled/default
-
+echo "define( 'MW_CONFIG_FILE', '/app/conf/LocalSettings.php' );" >> /app/conf/defines.php
 echo ""
 echo "#############################################"
 echo "Starting WebFrontend"

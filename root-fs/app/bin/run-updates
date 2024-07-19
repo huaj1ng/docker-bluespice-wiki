@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o errexit
 set -o nounset
 set -o pipefail
 
@@ -10,7 +11,6 @@ if [ -f /data//bluespice/logs/baseversion ]; then
 	baseVersion=$(cat /data/bluespice/logs/baseversion)
 fi
 version=$(cat $appDir/BLUESPICE-VERSION)
-edition=$(cat $appDir/BLUESPICE-EDITION)
 
 if [ "$baseVersion" == "$version" ]; then
 	echo "No version change, skipping updates"
@@ -20,7 +20,7 @@ fi
 echo "Running updates"
 echo "Version: $version"
 
-if [ "${EDITION}" = "FARM" ]; then
+if [ "${EDITION}" = "farm" ]; then
 	runForAllScript=/app/bluespice/w/extensions/BlueSpiceWikiFarm/SimpleFarmer/maintenance/RunforAll.php
 	php $appDir/maintenance/update.php  --quick | tee -a /data/bluespice/logs/update-$timestamp.log
 	php $runForAllScript --script='maintenance/update.php'  --args='--quick' | tee -a /data/bluespice/logs/update-$timestamp.log

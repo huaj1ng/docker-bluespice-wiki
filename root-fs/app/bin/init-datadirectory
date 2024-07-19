@@ -18,7 +18,7 @@ directories=(
   /data/simplesamlphp/logs
 )
 
-if [ "${EDITION}" == "FARM" ]; then
+if [ "${EDITION}" == "farm" ]; then
 	directories=(
   /data/bluespice/extensions/BlueSpiceFoundation/data
   /data/bluespice/images
@@ -49,5 +49,5 @@ for file in "${!files[@]}"; do
     echo -e "${files[$file]}" > "$file"
   fi
 done
-
+echo "Done Init data directory"
 chown -R bluespice:bluespice /data

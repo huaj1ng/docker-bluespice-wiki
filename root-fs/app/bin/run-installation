@@ -28,10 +28,12 @@ php $appDir/maintenance/install.php \
 	--scriptpath=/w \
 	$WIKI_NAME \
 	Admin \
-	| tee /data/bluespice/logs/install-$timestamp.log
+	| tee -a /data/bluespice/logs/install-$timestamp.log
 
 # Remove the LocalSettings.php file created by the install script
 rm $appDir/LocalSettings.php
+
+
 
 echo "Database installed"
 
@@ -45,7 +47,7 @@ if [ ! -f /data/simplesamlphp/certs/saml.crt ] || [ ! -f /data/simplesamlphp/cer
 fi
 
 run-updates
-rebuild-searchindex
+rebuild-searchindex --all
 
 echo ""
 echo "#############################################"

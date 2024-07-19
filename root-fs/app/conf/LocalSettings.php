@@ -21,10 +21,10 @@ unset( $portSuffix );
 $GLOBALS['wgSitename'] = getenv( 'WIKI_NAME' ) ?? 'BlueSpice';
 $GLOBALS['wgScriptPath'] = "/w";
 $GLOBALS['wgArticlePath'] = '/wiki/$1';
-if ( getenv( 'EDITION' === "FARM") ) {
+if ( getenv( 'EDITION' === "farm") ) {
 	$GLOBALS['wgArticlePath'] = "/wiki/$1";
-	if( FARMER_IS_ROOT_WIKI_CALL === false ) {
-        $GLOBALS['wgArticlePath'] = "/" . FARMER_CALLED_INSTANCE . "/wiki/$1";
+	if( farmER_IS_ROOT_WIKI_CALL === false ) {
+        $GLOBALS['wgArticlePath'] = "/" . farmER_CALLED_INSTANCE . "/wiki/$1";
 	}
 }
 $GLOBALS['wgResourceBasePath'] = $GLOBALS['wgScriptPath'];
@@ -77,14 +77,6 @@ $GLOBALS['wgSMTP'] = [
 	'username' => getenv( 'SMTP_USER' ),
 	'password' => getenv( 'SMTP_PASS' ),
 ];
-$GLOBALS['wgMathoidCli'] = [
-	'/app/bin/mathoid-remote',
-	( getenv( 'FORMULA_PROTOCOL' ) ?? 'http' )
-	. '://'
-	. ( getenv( 'FORMULA_HOST' ) )
-	. ':'
-	. ( getenv( 'FORMULA_PORT' ) ),
-];
 
 if ( getenv( 'DEV_WIKI_DEBUG' ) ) {
 	#$GLOBALS['wgDebugToolbar'] = true;
@@ -119,11 +111,11 @@ $GLOBALS['bsgSimpleFarmer_instanceDirectory'] = '/data/bluespice/_sf_instances/'
 $GLOBALS['bsgSimpleFarmer_archiveDirectory'] = '/data/bluespice/_sf_archives/';
 
 require_once '/data/bluespice/pre-init-settings.php';
-if ( getenv( 'EDITION' === "FARM") ) {
+if ( getenv( 'EDITION' === "farm") ) {
 	require_once "$IP/extensions/BlueSpiceWikiFarm/BlueSpiceWikiFarm.php";
 }
 else {	
-require_once "$IP/LocalSettings.BlueSpice.php";
+	require_once "$IP/LocalSettings.BlueSpice.php";
 }
 wfLoadExtension( 'BlueSpiceExtendedSearch' );
 $GLOBALS['bsgOverrideESBackendHost'] = getenv( 'SEARCH_HOST' );
@@ -165,6 +157,16 @@ if ( getenv( 'DIAGRAM_HOST' ) ) {
 	unset( $path );
 }
 ### end
+
+### Dynamic assembly of $GLOBALS['wgMathoidCli']
+$GLOBALS['wgMathoidCli'] = [
+	'/app/bin/mathoid-remote',
+	( getenv( 'FORMULA_PROTOCOL' ) ?? 'http' )
+	. '://'
+	. ( getenv( 'FORMULA_HOST' ) )
+	. ':'
+	. ( getenv( 'FORMULA_PORT' ) ),
+];
 
 ### Dynamic assembly of $GLOBALS['wgCollabPadsBackendServiceURL']
 if ( getenv( 'COLLABPADSBACKEND_HOST' ) ) {
