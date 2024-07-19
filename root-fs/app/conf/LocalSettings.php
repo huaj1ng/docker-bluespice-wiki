@@ -23,8 +23,8 @@ $GLOBALS['wgScriptPath'] = "/w";
 $GLOBALS['wgArticlePath'] = '/wiki/$1';
 if ( getenv( 'EDITION' === "farm") ) {
 	$GLOBALS['wgArticlePath'] = "/wiki/$1";
-	if( farmER_IS_ROOT_WIKI_CALL === false ) {
-        $GLOBALS['wgArticlePath'] = "/" . farmER_CALLED_INSTANCE . "/wiki/$1";
+	if( FARMER_IS_ROOT_WIKI_CALL === false ) {
+        $GLOBALS['wgArticlePath'] = "/" . FARMER_CALLED_INSTANCE . "/wiki/$1";
 	}
 }
 $GLOBALS['wgResourceBasePath'] = $GLOBALS['wgScriptPath'];
@@ -43,14 +43,8 @@ $GLOBALS['wgDBprefix'] = getenv( 'DB_PREFIX' ) ?? '';
 $GLOBALS['wgDBTableOptions'] = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 $GLOBALS['wgSharedTables'][] = "actor";
 $GLOBALS['wgMainCacheType'] = CACHE_ACCEL;
-if ( getenv( 'CACHE_HOST' ) ) {
-	$GLOBALS['wgMemCachedServers'] = [
-		( getenv( 'CACHE_HOST' ) ?? 'cache' )
-		. ':'
-		. ( getenv( 'CACHE_PORT' ) ?? '11211' )
-	];
-	$GLOBALS['wgMainCacheType'] = CACHE_MEMCACHED;
-}
+$GLOBALS['wgMemCachedServers'] = ["cache:11211"];
+$GLOBALS['wgMainCacheType'] = CACHE_MEMCACHED;
 $GLOBALS['wgMessageCacheType'] = CACHE_ACCEL;
 $GLOBALS['wgLocalisationCacheConf']['store'] = 'array';
 $GLOBALS['wgLocalisationCacheConf']['storeDirectory'] = "/tmp/";
@@ -118,20 +112,12 @@ else {
 	require_once "$IP/LocalSettings.BlueSpice.php";
 }
 wfLoadExtension( 'BlueSpiceExtendedSearch' );
-$GLOBALS['bsgOverrideESBackendHost'] = getenv( 'SEARCH_HOST' );
-$GLOBALS['bsgOverrideESBackendPort'] = getenv( 'SEARCH_PORT' ) ?? '9200';
-$GLOBALS['bsgOverrideESBackendTransport'] = getenv( 'SEARCH_PROTOCOL' ) ?? 'http';
-$GLOBALS['bsgOverrideESBackendUser'] = getenv( 'SEARCH_USER' ) ?? '';
-$GLOBALS['bsgOverrideESBackendPass'] = getenv( 'SEARCH_PASS' ) ?? '';
+$GLOBALS['bsgOverrideESBackendHost'] = 'search';
+$GLOBALS['bsgOverrideESBackendPort'] = '9200';
+$GLOBALS['bsgOverrideESBackendTransport'] = 'http';
 
 wfLoadExtension( 'BlueSpiceUEModulePDF' );
-$GLOBALS['bsgOverrideUEModulePDFPdfServiceURL'] =
-	( getenv( 'PDF_PROTOCOL' ) ?? 'http' )
-	. '://'
-	. ( getenv( 'PDF_HOST' ) )
-	. ':'
-	. ( getenv( 'PDF_PORT' ) )
-	. '/BShtml2PDF';
+$GLOBALS['bsgOverrideUEModulePDFPdfServiceURL'] ='http://pdf:8080/BShtml2PDF';
 
 wfLoadExtension( 'PdfHandler' );
 $GLOBALS['wgPdfProcessor'] = '/usr/bin/gs';
@@ -139,52 +125,13 @@ $GLOBALS['wgPdfPostProcessor'] = $GLOBALS['wgImageMagickConvertCommand'];
 $GLOBALS['wgPdfInfo'] = '/usr/bin/pdfinfo';
 $GLOBALS['wgPdftoText'] = '/usr/bin/pdftotext';
 
-### Dynamic assembly of $GLOBALS['wgDrawioEditorBackendUrl']
-if ( getenv( 'DIAGRAM_HOST' ) ) {
-	$protocol = getenv( 'DIAGRAM_PROTOCOL' ) ?? 'http';
-	$host = getenv( 'DIAGRAM_HOST' ) ?? 'localhost';
-	$portSuffix = getenv( 'DIAGRAM_PORT' ) ? ':' . getenv( 'DIAGRAM_PORT' ) : '';
-	$path = getenv( 'DIAGRAM_PATH' ) ?? '';
-	if ( $protocol === 'http' && $portSuffix === ':80' ) {
-		$portSuffix = '';
-	} elseif ( $protocol === 'https' && $portSuffix === ':443' ) {
-		$portSuffix = '';
-	}
-	$GLOBALS['wgDrawioEditorBackendUrl'] = "$protocol://$host{$portSuffix}{$path}";
-	unset( $protocol );
-	unset( $host );
-	unset( $portSuffix );
-	unset( $path );
-}
-### end
+
+$GLOBALS['wgDrawioEditorBackendUrl'] = "$wgServer/diagram";
 
 ### Dynamic assembly of $GLOBALS['wgMathoidCli']
 $GLOBALS['wgMathoidCli'] = [
 	'/app/bin/mathoid-remote',
-	( getenv( 'FORMULA_PROTOCOL' ) ?? 'http' )
-	. '://'
-	. ( getenv( 'FORMULA_HOST' ) )
-	. ':'
-	. ( getenv( 'FORMULA_PORT' ) ),
+	'http://formula:10044'
 ];
-
-### Dynamic assembly of $GLOBALS['wgCollabPadsBackendServiceURL']
-if ( getenv( 'COLLABPADSBACKEND_HOST' ) ) {
-	$protocol = getenv( 'COLLABPADSBACKEND_PROTOCOL' ) ?? 'http';
-	$host = getenv( 'COLLABPADSBACKEND_HOST' ) ?? 'localhost';
-	$portSuffix = getenv( 'COLLABPADSBACKEND_PORT' ) ? ':' . getenv( 'DIAGRAM_PORT' ) : '';
-	$path = getenv( 'COLLABPADSBACKEND_PATH' ) ?? '';
-	if ( $protocol === 'http' && $portSuffix === ':80' ) {
-		$portSuffix = '';
-	} elseif ( $protocol === 'https' && $portSuffix === ':443' ) {
-		$portSuffix = '';
-	}
-	$GLOBALS['wgCollabPadsBackendServiceURL'] = "$protocol://$host{$portSuffix}{$path}";
-	unset( $protocol );
-	unset( $host );
-	unset( $portSuffix );
-	unset( $path );
-}
-### end
 
 require_once '/data/bluespice/post-init-settings.php';

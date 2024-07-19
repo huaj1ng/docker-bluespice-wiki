@@ -32,13 +32,13 @@ containerIdBase="${dockerImageRegistry}/${repoName}/${containerName}"
 	docker build  --no-cache -t ${containerIdBase}:latest .
 	docker push ${containerIdBase}:latest
 	docker tag ${containerIdBase}:latest ${containerIdBase}:${PATCH}
-	docker push ${containerIdBase}:${PATCH}
+	#docker push ${containerIdBase}:${PATCH}
 	MINOR=${PATCH:0:3}
 	docker tag ${containerIdBase}:latest ${containerIdBase}:${MINOR}
-	docker push ${containerIdBase}:${MINOR}
+	#docker push ${containerIdBase}:${MINOR}
 	MAJOR=${MINOR/0:1}
 	docker tag ${containerIdBase}:latest ${containerIdBase}:${MAJOR}
-	docker push ${containerIdBase}:${MAJOR}
+	#docker push ${containerIdBase}:${MAJOR}
 
 
 
