@@ -126,7 +126,7 @@ $GLOBALS['wgPdfInfo'] = '/usr/bin/pdfinfo';
 $GLOBALS['wgPdftoText'] = '/usr/bin/pdftotext';
 
 
-$GLOBALS['wgDrawioEditorBackendUrl'] = "$wgServer/diagram";
+$GLOBALS['wgDrawioEditorBackendUrl'] = "$wgServer/_diagram/";
 
 ### Dynamic assembly of $GLOBALS['wgMathoidCli']
 $GLOBALS['wgMathoidCli'] = [
