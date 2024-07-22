@@ -32,8 +32,6 @@ RUN apt-get -y --no-install-recommends install \
 	php-gmp \
 	poppler-utils \
 	python3 \
-	sudo \
-	vim \
 	librsvg2-bin \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
@@ -73,7 +71,6 @@ RUN  apt-get -y auto-remove \
  ENV GID=1002
  RUN addgroup --gid $GID bluespice \
   && adduser --uid $UID --gid $GID --disabled-password --gecos "" bluespice \
-  &&  echo 'bluespice ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && usermod -aG www-data bluespice \
   && chown -R 1002:1002 /app/bin \
   && chown -R 1002:1002 /app/conf \
