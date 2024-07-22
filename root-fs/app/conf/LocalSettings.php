@@ -22,9 +22,8 @@ $GLOBALS['wgSitename'] = getenv( 'WIKI_NAME' ) ?? 'BlueSpice';
 $GLOBALS['wgScriptPath'] = "/w";
 $GLOBALS['wgArticlePath'] = '/wiki/$1';
 if ( getenv( 'EDITION' === "farm") ) {
-	$GLOBALS['wgArticlePath'] = "/wiki/$1";
 	if( FARMER_IS_ROOT_WIKI_CALL === false ) {
-        $GLOBALS['wgArticlePath'] = "/" . FARMER_CALLED_INSTANCE . "/wiki/$1";
+		$GLOBALS['wgArticlePath'] = "/" . FARMER_CALLED_INSTANCE . "/wiki/$1";
 	}
 }
 $GLOBALS['wgResourceBasePath'] = $GLOBALS['wgScriptPath'];
@@ -108,7 +107,7 @@ require_once '/data/bluespice/pre-init-settings.php';
 if ( getenv( 'EDITION' === "farm") ) {
 	require_once "$IP/extensions/BlueSpiceWikiFarm/BlueSpiceWikiFarm.php";
 }
-else {	
+else {
 	require_once "$IP/LocalSettings.BlueSpice.php";
 }
 wfLoadExtension( 'BlueSpiceExtendedSearch' );
@@ -125,10 +124,8 @@ $GLOBALS['wgPdfPostProcessor'] = $GLOBALS['wgImageMagickConvertCommand'];
 $GLOBALS['wgPdfInfo'] = '/usr/bin/pdfinfo';
 $GLOBALS['wgPdftoText'] = '/usr/bin/pdftotext';
 
+$GLOBALS['wgDrawioEditorBackendUrl'] = $GLOBALS['wgServer'] . '/_diagram/';
 
-$GLOBALS['wgDrawioEditorBackendUrl'] = "$wgServer/_diagram/";
-
-### Dynamic assembly of $GLOBALS['wgMathoidCli']
 $GLOBALS['wgMathoidCli'] = [
 	'/app/bin/mathoid-remote',
 	'http://formula:10044'
