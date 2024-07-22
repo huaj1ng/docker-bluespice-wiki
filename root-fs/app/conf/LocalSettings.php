@@ -112,9 +112,9 @@ else {
 	require_once "$IP/LocalSettings.BlueSpice.php";
 }
 wfLoadExtension( 'BlueSpiceExtendedSearch' );
-$GLOBALS['bsgOverrideESBackendHost'] = 'search';
-$GLOBALS['bsgOverrideESBackendPort'] = '9200';
-$GLOBALS['bsgOverrideESBackendTransport'] = 'http';
+$GLOBALS['bsgESBackendHost'] = 'search';
+$GLOBALS['bsgESBackendPort'] = '9200';
+$GLOBALS['bsgESBackendTransport'] = 'http';
 
 wfLoadExtension( 'BlueSpiceUEModulePDF' );
 $GLOBALS['bsgOverrideUEModulePDFPdfServiceURL'] ='http://pdf:8080/BShtml2PDF';

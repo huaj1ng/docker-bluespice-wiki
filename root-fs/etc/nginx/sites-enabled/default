@@ -7,6 +7,7 @@ server {
 	error_log /dev/stderr warn;
 	server_tokens off;
 	
+
 	rewrite ^/_sp/(.*)$ /_sp/$1 last;
 	rewrite ^/wiki/(.*?).php/(.+)$ /w/$1.php?sfr=w&title=$2 last;
 	rewrite ^/wiki/(.+)$ /w/index.php?title=$1&sfr=w last;
