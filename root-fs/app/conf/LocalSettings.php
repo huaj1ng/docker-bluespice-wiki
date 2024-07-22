@@ -110,6 +110,7 @@ if ( getenv( 'EDITION' === "farm") ) {
 else {
 	require_once "$IP/LocalSettings.BlueSpice.php";
 }
+
 wfLoadExtension( 'BlueSpiceExtendedSearch' );
 $GLOBALS['bsgOverrideESBackendHost'] = 'search';
 $GLOBALS['bsgOverrideESBackendPort'] = '9200';
@@ -124,7 +125,10 @@ $GLOBALS['wgPdfPostProcessor'] = $GLOBALS['wgImageMagickConvertCommand'];
 $GLOBALS['wgPdfInfo'] = '/usr/bin/pdfinfo';
 $GLOBALS['wgPdftoText'] = '/usr/bin/pdftotext';
 
-$GLOBALS['wgDrawioEditorBackendUrl'] = $GLOBALS['wgServer'] . '/_diagram/';
+if ( getenv( 'EDITION' !== "free") ) {
+	// FREE edition uses public diagrams.net service
+	$GLOBALS['wgDrawioEditorBackendUrl'] = $GLOBALS['wgServer'] . '/_diagram/';
+}
 
 $GLOBALS['wgMathoidCli'] = [
 	'/app/bin/mathoid-remote',
