@@ -25,7 +25,7 @@ echo "Fetching codebase '${Version}-${Branch}' from ${deploymentRepo}'"
     
 
 dockerImageRegistry="docker.bluespice.com"
-containerName=${EDITION}-wiki
+containerName=wiki
 containerIdBase="${dockerImageRegistry}/${repoName}/${containerName}"
 	echo ""
 	echo "Building '${containerIdBase}:${PATCH}'"
