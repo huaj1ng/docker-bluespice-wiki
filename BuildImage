@@ -18,9 +18,9 @@ fi
 #majorVersion=${minorVersion%.*}
 
 echo "Fetching codebase '${Version}-${Branch}' from ${deploymentRepo}'"
-#rm -rf _codebase/bluespice
-#git clone -b ${PATCH} --depth 1 ${deploymentRepo} _codebase/bluespice
-#rm -rf _codebase/bluespice/.git/
+rm -rf _codebase/bluespice
+git clone -b ${PATCH} --depth 1 ${deploymentRepo} _codebase/bluespice
+rm -rf _codebase/bluespice/.git/
 
     
 
