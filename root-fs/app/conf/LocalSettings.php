@@ -21,7 +21,7 @@ unset( $portSuffix );
 $GLOBALS['wgSitename'] = getenv( 'WIKI_NAME' ) ?? 'BlueSpice';
 $GLOBALS['wgScriptPath'] = "/w";
 $GLOBALS['wgArticlePath'] = '/wiki/$1';
-if ( getenv( 'EDITION' === "farm") ) {
+if ( getenv( 'EDITION' ) === 'farm' ) {
 	if( FARMER_IS_ROOT_WIKI_CALL === false ) {
 		$GLOBALS['wgArticlePath'] = "/" . FARMER_CALLED_INSTANCE . "/wiki/$1";
 	}
@@ -104,7 +104,7 @@ $GLOBALS['bsgSimpleFarmer_instanceDirectory'] = '/data/bluespice/_sf_instances/'
 $GLOBALS['bsgSimpleFarmer_archiveDirectory'] = '/data/bluespice/_sf_archives/';
 
 require_once '/data/bluespice/pre-init-settings.php';
-if ( getenv( 'EDITION' === "farm") ) {
+if ( getenv( 'EDITION' ) === 'farm' ) {
 	require_once "$IP/extensions/BlueSpiceWikiFarm/BlueSpiceWikiFarm.php";
 }
 else {
@@ -125,7 +125,7 @@ $GLOBALS['wgPdfPostProcessor'] = $GLOBALS['wgImageMagickConvertCommand'];
 $GLOBALS['wgPdfInfo'] = '/usr/bin/pdfinfo';
 $GLOBALS['wgPdftoText'] = '/usr/bin/pdftotext';
 
-if ( getenv( 'EDITION' !== "free") ) {
+if ( getenv( 'EDITION' ) !== 'free' ) {
 	// FREE edition uses public diagrams.net service
 	$GLOBALS['wgDrawioEditorBackendUrl'] = $GLOBALS['wgServer'] . '/_diagram/';
 }
