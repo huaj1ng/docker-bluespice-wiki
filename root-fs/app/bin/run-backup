@@ -15,7 +15,7 @@ minute=$(date +"%M")
 if [ $hour != $BACKUP_HOUR ]; then
 	exit 0
 fi
-if [ $minute = 1 ]; then
+if [ $minute == 1 ]; then
 	##mediawiki-adm is not able to get Systemvariables from /app/conf/LocalSettings.php
 	TempSettingsFile=/data/bluespice/LocalSettings.local.php 
 	echo "<?php" > $TempSettingsFile
