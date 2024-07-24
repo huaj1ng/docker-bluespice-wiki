@@ -12,7 +12,8 @@ server {
 	rewrite ^/wiki/(.+)$ /w/index.php?title=$1&sfr=w last;
 	rewrite ^/wiki/([^/]+)/?$ /w/index.php?title=$1&sfr=w last;
 	rewrite ^/w/(.*?)$ /w/$1?sfr=w last;
-	rewrite ^/([^/]*)/(.*?).php/(.+)$ /w/$2.php?sfr=$1&title=$3 last;
+	rewrite ^/([^/]*)/index.php/(.+)$ /w/$2.php?sfr=$1&title=$3 last;
+	rewrite ^/([^/]*)/(.*?).php/(.+)$ /w/$2.php/$3?sfr=$1 last;
 	rewrite ^/([^/]*)/(.*?).php /w/$2.php?sfr=$1 last;
 	rewrite ^/([^/]*)/wiki/(.+)$ /w/index.php?title=$2&sfr=$1 last;
 	rewrite ^/([^/]*)/(.+)$ /w/$2 last;
