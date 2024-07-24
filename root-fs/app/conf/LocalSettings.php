@@ -102,7 +102,6 @@ define( 'BS_DATA_PATH', "{$GLOBALS['wgUploadPath']}/bluespice" );
 
 $GLOBALS['bsgSimpleFarmer_instanceDirectory'] = '/data/bluespice/_sf_instances/';
 $GLOBALS['bsgSimpleFarmer_archiveDirectory'] = '/data/bluespice/_sf_archives/';
-$ED@		
 require_once '/data/bluespice/pre-init-settings.php';
 if ( getenv( 'EDITION' ) === 'farm' ) {
 	require_once "$IP/extensions/BlueSpiceWikiFarm/BlueSpiceWikiFarm.php";
