@@ -22,7 +22,7 @@ while true; do
 
     if [ "${EDITION}" == "farm" ]; then
         php \
-        &appDir/extensions/BlueSpiceWikiFarm/SimpleFarmer/maintenance/FarmProcessRunner.php \
+        $appDir/extensions/BlueSpiceWikiFarm/SimpleFarmer/maintenance/FarmProcessRunner.php \
         &
         
     fi
