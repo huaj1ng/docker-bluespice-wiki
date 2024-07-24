@@ -54,7 +54,7 @@ server {
 		fastcgi_pass unix:/var/run/php/php-fpm.sock;
 	}
 
-	location ~ ^/w/(img_auth|nsfr_img_auth|rest|webdav)\.php(/.+?)$ {
+	location ~ ^/(.*?)/(img_auth|nsfr_img_auth|rest|webdav)\.php(/.+?)$ {
 		include fastcgi.conf;
 		fastcgi_split_path_info ^(.+?\.php)(/.+)$;
 		fastcgi_param PATH_INFO $fastcgi_path_info;
