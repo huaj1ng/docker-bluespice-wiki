@@ -18,27 +18,27 @@ fi
 #majorVersion=${minorVersion%.*}
 
 echo "Fetching codebase '${Version}-${Branch}' from ${deploymentRepo}'"
-#rm -rf _codebase/bluespice
-#git clone -b ${PATCH} --depth 1 ${deploymentRepo} _codebase/bluespice
-#rm -rf _codebase/bluespice/.git/
+rm -rf _codebase/bluespice
+git clone -b ${PATCH} --depth 1 ${deploymentRepo} _codebase/bluespice
+rm -rf _codebase/bluespice/.git/
 
     
 
 dockerImageRegistry="docker.bluespice.com"
-containerName=${EDITION}
+containerName=wiki
 containerIdBase="${dockerImageRegistry}/${repoName}/${containerName}"
 	echo ""
 	echo "Building '${containerIdBase}:${PATCH}'"
 	docker build --no-cache -t ${containerIdBase}:latest .
-	#docker push ${containerIdBase}:latest
+	docker push ${containerIdBase}:latest
 	docker tag ${containerIdBase}:latest ${containerIdBase}:${PATCH}
-	#docker push ${containerIdBase}:${PATCH}
+	docker push ${containerIdBase}:${PATCH}
 	MINOR=${PATCH:0:3}
 	docker tag ${containerIdBase}:latest ${containerIdBase}:${MINOR}
-	#docker push ${containerIdBase}:${MINOR}
+	docker push ${containerIdBase}:${MINOR}
 	MAJOR=${MINOR/0:1}
 	docker tag ${containerIdBase}:latest ${containerIdBase}:${MAJOR}
-	#docker push ${containerIdBase}:${MAJOR}
+	docker push ${containerIdBase}:${MAJOR}
 
 
 
