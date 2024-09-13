@@ -12,7 +12,7 @@ echo "Rebuilding search index"
 appDir=/app/bluespice/w
 runForAllScript=$appDir/extensions/BlueSpiceWikiFarm/SimpleFarmer/maintenance/RunForAll.php
 
-if [[ ( "$1" == "--help"[[ ("$1" == "-h" ) ]]; then
+if [[ ( "$1" == "--help" ) || ( "$1" == "-h" ) ]]; then
     echo "use without Argument for rebuilding main BS"
     echo "use with --all/-a for all Subinstances"
     echo "use with --sfr aa bb cc  to rebuild Instances aa , bb ,cc"
