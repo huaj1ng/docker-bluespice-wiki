@@ -1,0 +1,10 @@
+- name: Push docker-bluespice-wiki to Gitlab server
+  # You may pin to the exact commit or the version.
+  # uses: saderi/push-to-gitlab@57253ffa911de6f01e7daf999cfb77f9deb47344
+  uses: downloadbot
+  with:
+    # Gitlab repository
+    gitlab_repository: git@gitlab.hallowelt.com:BlueSpice/bluespice-container/docker-bluespice-wiki.git
+    # Gitlab token
+    gitlab_token: 6KrELyov-hm5gjHhhjzu
+          
