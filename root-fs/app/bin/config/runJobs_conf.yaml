@@ -7,3 +7,5 @@ runjobs:
     maxtime: 20         # Maximum life time of a runJobs.php (Per wiki, per cycle) - Seconds
     cooldown: 3        # Wait time after each cycle - Seconds
     maxforkprocesses: 5 # Maximum number of sub processes that can be spawned for parallel processing
+exclude-instances: []
+include-instances: []
