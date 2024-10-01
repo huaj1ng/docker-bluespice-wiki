@@ -49,5 +49,5 @@ for file in "${!files[@]}"; do
     echo -e "${files[$file]}" > "$file"
   fi
 done
-echo "Done Init data directory"
+echo "Done"
 chown -R bluespice:bluespice /data
