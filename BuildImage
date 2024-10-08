@@ -29,7 +29,7 @@ containerName=wiki
 containerIdBase="${dockerImageRegistry}/${repoName}/${containerName}"
 	echo ""
 	echo "Building '${containerIdBase}:${PATCH}'"
-	docker build --no-cache -t ${containerIdBase}:latest .
+	docker build -t ${containerIdBase}:latest .
 	docker push ${containerIdBase}:latest
 	docker tag ${containerIdBase}:latest ${containerIdBase}:${PATCH}
 	docker push ${containerIdBase}:${PATCH}
