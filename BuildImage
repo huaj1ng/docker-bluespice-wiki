@@ -7,17 +7,14 @@
 deploymentRepo="$1"
 EDITION="$2"
 PATCH="$3"
+
 if [[ -z $4 ]]; then
 	repoName="bluespice-"$EDITION
 else
 	repoName="$4"
 fi
 
-patchVersion=${version%-*}
-minorVersion=${patchVersion%.*}
-majorVersion=${minorVersion%.*}
-
-echo "Fetching codebase '${version}-${PATCH}' from ${deploymentRepo}'"
+echo "Fetching codebase '${EDITION}-${PATCH}' from ${deploymentRepo}'"
 rm -rf _codebase/bluespice
 git clone -b ${PATCH} --depth 1 ${deploymentRepo} _codebase/bluespice
 rm -rf _codebase/bluespice/.git/
