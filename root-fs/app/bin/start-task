@@ -18,8 +18,6 @@ fi
 substitutePlaceholders /app/bin/config/mediawiki_adm_backup_conf.json
 substitutePlaceholders /app/bin/config/runJobs_settings.php
 substitutePlaceholders /app/bin/config/runJobs_conf.yaml
-substitutePlaceholders /app/bin/config/backup_conf.json
-substitutePlaceholders /app/bin/config/settings.php
 
 echo ""
 echo "#############################################"
