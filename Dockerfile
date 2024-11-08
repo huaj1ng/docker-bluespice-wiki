@@ -49,6 +49,7 @@ COPY ./root-fs/etc/nginx/sites-enabled/* /etc/nginx/sites-enabled
 COPY ./root-fs/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./root-fs/app/bin /app/bin
 COPY ./root-fs/app/conf /app/conf
+COPY ./root-fs/app/simplesamlphp /app/
 ADD https://github.com/hallowelt/misc-mediawiki-adm/releases/latest/download/mediawiki-adm /app/bin
 ADD https://github.com/hallowelt/misc-parallel-runjobs-service/releases/download/2.0.0/parallel-runjobs-service /app/bin
 COPY ./root-fs/etc/php/8.x/fpm/conf.d/* /etc/php/8.2/fpm/conf.d
