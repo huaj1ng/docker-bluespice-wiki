@@ -50,9 +50,10 @@ COPY ./root-fs/etc/nginx/sites-enabled/* /etc/nginx/sites-enabled
 COPY ./root-fs/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./root-fs/app/bin /app/bin
 COPY ./root-fs/app/conf /app/conf
+COPY ./root-fs/app/simplesamlphp /app/
 ADD https://raw.githubusercontent.com/hallowelt/docker-bluespice-formula/main/_client/mathoid-remote /app/bin
 ADD https://github.com/hallowelt/misc-mediawiki-adm/releases/latest/download/mediawiki-adm /app/bin
-ADD https://github.com/hallowelt/misc-parallel-runjobs-service/releases/download/1.0.0/parallel-runjobs-service /app/bin
+ADD https://github.com/hallowelt/misc-parallel-runjobs-service/releases/download/2.0.0/parallel-runjobs-service /app/bin
 COPY ./root-fs/etc/php/8.x/fpm/conf.d/* /etc/php/8.2/fpm/conf.d
 COPY ./root-fs/etc/php/8.x/fpm/php-fpm.conf /etc/php/8.2/fpm/
 COPY ./root-fs/etc/php/8.x/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/
