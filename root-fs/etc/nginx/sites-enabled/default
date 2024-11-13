@@ -75,7 +75,6 @@ server {
 	}
 
 	location ^~ /_sp {
-		if (!-f /data/simplesamlphp/saml_idp_metadata.xml) {
 			alias /app/simplesamlphp/public;
         		location ~^(?<prefix>/_sp)(?<phpfile>.+?\.php)(?<pathinfo>/.*)?$ {
             			include          fastcgi_params;
@@ -89,7 +88,6 @@ server {
         			}
 			break;
 		}
-	}
 
 
 	location ~ ^/w/resources/(assets|lib|src) {
