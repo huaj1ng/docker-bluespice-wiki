@@ -18,11 +18,11 @@ $config = [
 	],
 	'default-sp' => [
 		'saml:SP',
-		'entityID' => $baseUrl . '/_sp/module.php/saml/sp/metadata.php/default-sp',
+		'entityID' => $baseUrl,
 		'idp' => $idpRemoteMetaData['entityid'],
 		'discoURL' => null,
-		'privatekey' => '/data/simplesamlphp/saml.pem',
-		'certificate' => '/data/simplesamlphp/saml.crt',
+		'privatekey' => '/data/simplesamlphp/certs/saml.pem',
+		'certificate' => '/data/simplesamlphp/certs/saml.crt',
 		'NameIDPolicy' => []
 	]
 ];
