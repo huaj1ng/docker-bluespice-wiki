@@ -13,7 +13,9 @@ echo '' > /data/.wikienv
 echo "INTERNAL_WIKI_UPGRADEKEY=$upgradeKey" >> /data/.wikienv
 echo "INTERNAL_WIKI_SECRETKEY=$secretKey" >> /data/.wikienv
 echo "INTERNAL_SIMPLESAMLPHP_ADMIN_PASS=$secretKey" >> /data/.wikienv
+set -a
 source /data/.wikienv
+set +a
 
 # TODO: make admin name configurable
 php $appDir/maintenance/install.php \
