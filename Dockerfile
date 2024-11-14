@@ -42,10 +42,8 @@ RUN apt-get -y --no-install-recommends install \
 FROM bluespice-main AS bluespice-prepare
 RUN mkdir -p /app/bluespice \
 	&& cd /app/bluespice
-COPY --chown=www-data:www-data ./_codebase/bluespice /app/bluespice/w
+COPY ./_codebase/bluespice /app/bluespice/w
 COPY ./_codebase/simplesamlphp/ /app/simplesamlphp
-RUN chown www-data: /app/simplesamlphp/public
-RUN ln -s /app/simplesamlphp/public /app/bluespice/_sp
 COPY ./root-fs/etc/nginx/sites-enabled/* /etc/nginx/sites-enabled
 COPY ./root-fs/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./root-fs/app/bin /app/bin
@@ -62,8 +60,6 @@ COPY ./root-fs/etc/php/8.x/mods-available /etc/php/8.2/mods-available
 
 FROM bluespice-prepare AS bluespice-final
 ENV PATH="/app/bin:${PATH}"
-RUN chmod 755 /app/bin/* \
-	&& ln -s /app/simplesamlphp/public /app/bluespice/_sp
 RUN apt-get -y auto-remove \
 	&& apt-get -y clean \
 	&& apt-get -y autoclean \
@@ -80,7 +76,11 @@ RUN addgroup --gid $GID bluespice \
 	&& usermod -aG www-data bluespice \
 	&& chown -R 1002:1002 /app/bin \
 	&& chown -R 1002:1002 /app/conf \
-	&& chown bluespice:www-data /var/run/php
+	&& chown www-data: /app/simplesamlphp/public \
+	&& ln -s /app/simplesamlphp/public /app/bluespice/_sp \
+	&& chown -R www-data:www-data /app/bluespice \
+	&& chown bluespice:www-data /var/run/php \
+	&& chmod 755 /app/bin/* \
 WORKDIR /app
 USER bluespice
 EXPOSE 9090
