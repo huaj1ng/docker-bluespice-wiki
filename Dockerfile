@@ -80,7 +80,7 @@ RUN addgroup --gid $GID bluespice \
 	&& chown www-data: /app/simplesamlphp/public \
 	&& chown -R www-data:www-data /app/bluespice \
 	&& chown bluespice:www-data /var/run/php \
-	&& chmod 755 /app/bin/* \
+	&& chmod 755 /app/bin/*
 WORKDIR /app
 USER bluespice
 EXPOSE 9090
