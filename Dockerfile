@@ -49,9 +49,9 @@ ARG GID
 ENV GID=$UID
 ARG GROUPNAME
 ENV GROUPNAME=$USER
-RUN addgroup -g $GID $GROUPNAME \
-	&& adduser -u $UID -G $GROUPNAME --disabled-password --gecos "" $USER \
-	&& addgroup $USER www-data \
+RUN addgroup -gid $GID $GROUPNAME \
+	&& adduser -uid $UID -gid $GID --disabled-password --gecos "" $USER \
+	&& usermod -aG www-data $USER \
 	&& mkdir -p /app/bluespice \
 	&& cd /app/bluespice 
 COPY --chown=nginx:nginx ./_codebase/bluespice /app/bluespice/w
