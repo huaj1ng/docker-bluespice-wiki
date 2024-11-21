@@ -54,7 +54,7 @@ RUN addgroup -gid $GID $GROUPNAME \
 	&& usermod -aG www-data $USER \
 	&& mkdir -p /app/bluespice \
 	&& cd /app/bluespice 
-COPY --chown=nginx:nginx ./_codebase/bluespice /app/bluespice/w
+COPY --chown=www-data:www-data ./_codebase/bluespice /app/bluespice/w
 COPY --chown=$USER:$GROUPNAME ./_codebase/simplesamlphp/ /app/simplesamlphp
 COPY --chown=$USER:$GROUPNAME --chmod=755 ./root-fs/app/bin /app/bin
 COPY --chown=$USER:$GROUPNAME ./root-fs/app/conf /app/conf
