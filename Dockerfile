@@ -53,7 +53,7 @@ RUN addgroup -gid $GID $GROUPNAME \
 	&& adduser -uid $UID -gid $GID --disabled-password --gecos "" $USER \
 	&& usermod -aG www-data $USER \
 	&& mkdir -p /app/bluespice \
-	&& cd /app/bluespice 
+	&& cd /app/bluespice \
  	&& chown -R $UID:www-data /var/run/php
 COPY --chown=www-data:www-data ./_codebase/bluespice /app/bluespice/w
 COPY --chown=$USER:$GROUPNAME ./_codebase/simplesamlphp/ /app/simplesamlphp
