@@ -69,6 +69,8 @@ COPY ./root-fs/etc/php/8.x/fpm/php-fpm.conf /etc/php/8.2/fpm/
 COPY ./root-fs/etc/php/8.x/fpm/pool.d/www.conf /etc/php/8.2/fpm/pool.d/
 COPY ./root-fs/etc/php/8.x/cli/conf.d/* /etc/php/8.2/cli/conf.d/
 COPY ./root-fs/etc/php/8.x/mods-available /etc/php/8.2/mods-available
+COPY ./root-fs/etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default
+COPY ./root-fs/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 
 FROM bluespice-prepare AS bluespice-final
 ENV PATH="/app/bin:${PATH}"
