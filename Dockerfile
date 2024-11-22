@@ -53,7 +53,7 @@ RUN addgroup -gid $GID $GROUPNAME \
 	&& mkdir -p /app/bluespice \
 	&& cd /app/bluespice \
  	&& chown -R $UID:www-data /var/run/php \
-  	&& mkdir /var/lib/nginx \
+  	&& mkdir -p /var/lib/nginx \
   	&& chown -R $UID:www-data /var/lib/nignx 
 COPY --chown=www-data:www-data ./_codebase/bluespice /app/bluespice/w
 COPY --chown=$USER:$GROUPNAME ./_codebase/simplesamlphp/ /app/simplesamlphp
