@@ -12,11 +12,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
 
 FROM base AS bluespice-main
 RUN apt-get -y --no-install-recommends install \
-	cron \
 	openssl \
 	ca-certificates \
 	imagemagick \
-	dvipng \
 	nginx \
 	php \
 	php-fpm \
